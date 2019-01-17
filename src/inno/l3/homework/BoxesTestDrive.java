@@ -1,11 +1,19 @@
 package inno.l3.homework;
 
-import inno.l2.homework.SortingExecutor;
-
 import java.util.Collection;
 
-import static inno.l3.homework.MathBox.*;
-
+/**
+ * Класс (@code BoxesTestDrive) предназначе для тестирования
+ * возможностей разработанных Box-классов. Статические поля класса:
+ * (@code arrLen) - длина генерируемых функцией (@code generateIntegersArray())
+ * массивов.
+ * (@code maxRandom) - диапазон генерируемых функцией (@code generateIntegersArray())
+ * значений.
+ * (@code divider) - делитель элементов коллекции для метода (@code splitter())
+ * (@code valueToRemove) - значение аргумента метода (@code removeIfExists)
+ *
+ * @author Tsapin Anton
+ */
 public class BoxesTestDrive {
 
     private static int arrLen = 18;
@@ -17,13 +25,13 @@ public class BoxesTestDrive {
         MathBox mathBox = MathBox.createInstanceOfMathBox(arrLen, maxRandom);
         System.out.println(mathBox);
         System.out.println("Sum of all elements equals " + MathBox.summator(mathBox.getBoxedElements()));
-        Collection s = splitter(mathBox.getBoxedElements(),divider);
+        Collection s = MathBox.splitter(mathBox.getBoxedElements(),divider);
         System.out.println("After division on " + divider + " collection look like");
-        showNumericCollectionElems(s);
+        MathBox.showNumericCollectionElems(s);
         System.out.println("Current example of MathBox " +
                                 " has hashcode equal to:\n"
                                                                 + mathBox.hashCode());
-        mathBox.removeElementOnValue(valueToRemove);
+        mathBox.removeIfExists(valueToRemove);
         System.out.println("Current example of MathBox " +
                                 " after deletion of element==" +
                                         valueToRemove + ":\n" + mathBox);

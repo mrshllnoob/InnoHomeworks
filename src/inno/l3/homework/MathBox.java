@@ -165,8 +165,8 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      *
      * @param value числовое значение, которое требуется удалить
      */
-    public void removeElementOnValue(int value) {
-        this.getBoxedElements().removeIf((e) -> (Integer)e==value);
+    public void removeIfExists(Number value) {
+        this.getBoxedElements().removeIf((e) -> e==value);
     }
 
     /**
@@ -188,7 +188,7 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      */
     @Override
     public void deleteObject(T obj) {
-        this.getBoxedElements().remove(obj);
+        this.removeIfExists(obj);
     }
 
     /**
