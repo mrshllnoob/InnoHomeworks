@@ -3,18 +3,13 @@ package inno.l2.homework;
 import java.util.Random;
 
 /**
- * <p>Класс (@code SortingExecutor) позволяет сортировать массивы случайных целых чисел.
+ * <p>Класс (@code SortingExecutor) позволяет сортировать
+ * массивы случайных целых чисел.
  *
- * Включает в себя ряд методов для работы с массивами и nested-классов, представляющих
- * собой различные виды сортировок.
+ * Включает в себя ряд методов для работы с массивами и nested-классов,
+ * представляющих собой различные виды сортировок.
  *
- * Реализовано 6 алгоритов сортировки:
- * Сортировка выбором - класс SelectionSorting
- * Сортировка вставками - класс InsertionSorting
- * Усовершенствованный алгоритм сортировки вставками - класс ImprovedInsertionSorting
- * Сортировка Шелла - класс ShellSorting
- * Нисходящая сортировка слиянием - класс DescendingMergeSorting
- * Восходящая сортировка слиянием - класс AscendingMergeSorting
+ * Реализовано 6 алгоритов сортировки.
  *
  * @author Tsapin Anton
  */
@@ -22,8 +17,8 @@ public class SortingExecutor {
 
     private static Comparable[] values;
     private static SortingAlgorithm alg;
-    private static final int arrLen = 60000;
-    public static final int randomRange = 60000;
+    private static int arrLen = 60000;
+    private static int randomRange = 60000;
 
     /**
      * Метод main является точкой входа в программу.
@@ -34,13 +29,19 @@ public class SortingExecutor {
      *      alg = new ИмяКлассаКонкретнойСортировки;
      * </pre></blockquote><p>
      *
-     *
+     * Сортировка выбором - класс SelectionSorting
+     * Сортировка вставками - класс InsertionSorting
+     * Усовершенствованный алгоритм сортировки вставками -
+     *  класс ImprovedInsertionSorting
+     * Сортировка Шелла - класс ShellSorting
+     * Нисходящая сортировка слиянием - класс DescendingMergeSorting
+     * Восходящая сортировка слиянием - класс AscendingMergeSorting
      */
     public static void main(String[] args) {
         alg = new AscendingMergeSorting();
-        values = generateIntegersArray(arrLen);
+        values = generateIntegersArray(getArrLen());
         show(values);
-        alg.sort();
+        Comparable[] sortedValues = alg.sort(values);
         assert isSorted(values);
         show(values);
     }
@@ -51,11 +52,11 @@ public class SortingExecutor {
      * @param arrLen длина генерируемого массива
      * @return возвращает ссылку на сгенерированный целочисленный массив
      */
-    private static Comparable[] generateIntegersArray(int arrLen) {
+    public static Integer[] generateIntegersArray(int arrLen) {
         Random rand = new Random();
         Integer[] temp = new Integer[arrLen];
         for(int i=0;i<arrLen;i++)
-            temp[i] = rand.nextInt(randomRange);
+            temp[i] = rand.nextInt(getRandomRange());
         return temp;
     }
 
@@ -64,7 +65,8 @@ public class SortingExecutor {
      *
      * @param comp1 ссылка на объект 1
      * @param comp2 ссылка на объект 2
-     * @return возвращает true, если объект 1 меньше объекта 2; false, если объект 1 больше или равен объекту 2
+     * @return возвращает true, если объект 1 меньше объекта 2;
+     * false, если объект 1 больше или равен объекту 2
      */
     public static boolean less(Comparable comp1, Comparable comp2) {
         return comp1.compareTo(comp2)<0;
@@ -88,7 +90,7 @@ public class SortingExecutor {
      *
      * @param comp ссылка на объект выводимого в stdout массива
      */
-    private static void show(Comparable[] comp) {
+    public static void show(Comparable[] comp) {
         for(int i=0;i<comp.length;i++)
             System.out.print(comp[i] + " ");
         System.out.println();
@@ -108,19 +110,71 @@ public class SortingExecutor {
     }
 
     /**
+     * Выдает значение длины массива, генерируемого функцией
+     * (@code generateIntegersArray()).
+     *
+     * @return поле объекта (@code SortingExecutor),
+     * обозначающее длину генерируемого целочисленного массива
+     */
+    public static int getArrLen() {
+        return arrLen;
+    }
+
+    /**
+     * Устанавливает значение длины массива, генерируемого функцией
+     * (@code generateIntegersArray()).
+     *
+     * @param arrLen устанавливаемая длина генерируемого
+     *  (@code generateIntegersArray()) массива.
+     * @return возвращает устанавливаемое параметром значение.
+     */
+    public static int setArrLen(int arrLen) {
+        SortingExecutor.arrLen = arrLen;
+        return arrLen;
+    }
+
+    /**
+     * Выдает установленное в классе (@code SortingExecutor)
+     * максимальное значение диапазона генерируемых функцией
+     * (@code generateIntegersArray()) значений для целочисленного массива
+     *
+     * @return максимальное значение для диапазона
+     */
+    public static int getRandomRange() {
+        return randomRange;
+    }
+
+    /**
+     * Задает объявленное в классе (@code SortingExecutor)
+     * максимальное значение диапазона генерируемых функцией
+     * (@code generateIntegersArray()) значений для целочисленного массива
+     *
+     * @param randomRange устанавливаемый максимум диапазона значений массива
+     * @return возвращает устанавливаемое параметром значение
+     */
+    public static int setRandomRange(int randomRange) {
+        SortingExecutor.randomRange = randomRange;
+        return randomRange;
+    }
+
+    /**
      * Класс в методе (@code sort()) которого реализован алгоритм сортировки вставками.
      * Реализует интерфейс SortingAlgorithm.
      */
-    private static class InsertionSorting implements SortingAlgorithm {
+    public static class InsertionSorting implements SortingAlgorithm {
 
         /**
-         * Сортировка вставками. Модифицирует статическое поле класса SortingExecutor.
+         * Сортировка вставками.
+         *
+         * @param values сортируемый массив
+         * @return остортированный массив
          */
         @Override
-        public void sort() {
-            for(int i=1;i<arrLen;i++)
+        public Comparable[] sort(Comparable[] values) {
+            for(int i = 1; i< getArrLen(); i++)
                 for(int j=i;j>0 && less(values[j],values[j-1]);j--)
                     exchangeElements(values, j,j-1);
+            return values;
         }
     }
 
@@ -128,22 +182,26 @@ public class SortingExecutor {
      * Класс в методе (@code sort()) которого реализован усовершенствованный алгоритм сортировки вставками.
      * Реализует интерфейс SortingAlgorithm.
      */
-    private static class ImprovedInsertionSorting implements SortingAlgorithm {
+    public static class ImprovedInsertionSorting implements SortingAlgorithm {
+
         /**
          * Усовершенствованная сортировка вставками.
+         *
+         * @param values сортируемый массив
+         * @return отсортированный массив
          */
         @Override
-        public void sort() {
+        public Comparable[] sort(Comparable[] values) {
             int exchanges = 0;
-            for (int i = arrLen-1; i > 0; i--) {
+            for (int i = getArrLen() -1; i > 0; i--) {
                 if (less(values[i], values[i-1])) {
                     exchangeElements(values, i, i-1);
                     exchanges++;
                 }
             }
-            if (exchanges == 0) return;
+            if (exchanges == 0) return new Integer[0];
 
-            for (int i = 2; i < arrLen; i++) {
+            for (int i = 2; i < getArrLen(); i++) {
                 Comparable v = values[i];
                 int j = i;
                 while (less(v, values[j-1])) {
@@ -152,6 +210,7 @@ public class SortingExecutor {
                 }
                 values[j] = v;
             }
+            return values;
         }
     }
 
@@ -159,20 +218,27 @@ public class SortingExecutor {
      * Класс в методе (@code sort()) которого реализован алгоритм сортировки выбором.
      * Реализует интерфейс SortingAlgorithm.
      */
-    private static class SelectionSorting implements SortingAlgorithm {
+    public static class SelectionSorting implements SortingAlgorithm {
 
         /**
          * Сортировка выбором.
          */
+        /**
+         * Сортировка выбором.
+         *
+         * @param values сортируемый массив
+         * @return остортированный массив
+         */
         @Override
-        public void sort() {
-            for(int i=0;i<arrLen;i++) {
+        public Comparable[] sort(Comparable[] values) {
+            for(int i = 0; i< getArrLen(); i++) {
                 int min = i;
-                for(int j=i+1;j<arrLen;j++)
+                for(int j = i+1; j< getArrLen(); j++)
                     if(less(values[j], values[min]))
                         min = j;
                 exchangeElements(values,i,min);
             }
+            return values;
         }
     }
 
@@ -180,24 +246,28 @@ public class SortingExecutor {
      * Класс в методе (@code sort()) которого реализован алгоритм сортировки Шелла.
      * Реализует интерфейс SortingAlgorithm.
      */
-    private static class ShellSorting implements SortingAlgorithm {
+    public static class ShellSorting implements SortingAlgorithm {
 
         /**
          * Сортировка Шелла
+         *
+         * @param values сортируемый массив
+         * @return остортированный массив
          */
         @Override
-        public void sort() {
+        public Comparable[] sort(Comparable[] values) {
             int h = 1;
-            while(h<arrLen/3)
+            while(h< getArrLen() /3)
                 h = 3*h + 1;
 
             while(h>=1) {
-                for(int i=h; i<arrLen; i++) {
+                for(int i = h; i< getArrLen(); i++) {
                     for(int j=i;j>=h && less(values[j],values[j-h]);j-=h)
                         exchangeElements(values,j,j-h);
                 }
                 h = h/3;
             }
+            return values;
         }
     }
 
@@ -207,7 +277,7 @@ public class SortingExecutor {
      * Имеет перегруженный метод (@code sort())
      * Наследует класс MergeSorting и реализует интерфейс SortingAlgorithm
      */
-    private static class DescendingMergeSorting extends MergeSorting {
+    public static class DescendingMergeSorting extends MergeSorting {
 
         /**
          * Реализация метода (@code sort()) интерфейса SortingAlgorithm.
@@ -215,11 +285,15 @@ public class SortingExecutor {
          * Здесь задается размер временного массива (@code temp) и вызывается
          * метод (@code sort(int,int)) с аргументами, указывающими на начало и
          * конец сортируемого массива.
+         *
+         * @param values сортируемый массив
+         * @return остортированный массив
          */
         @Override
-        public void sort() {
+        public Comparable[] sort(Comparable[] values) {
             temp = new Comparable[values.length];
-            sort( 0, arrLen - 1);
+            sort( 0, getArrLen() - 1);
+            return values;
         }
 
         /**
@@ -245,20 +319,21 @@ public class SortingExecutor {
      * Имеет перегруженный метод (@code sort())
      * Наследует класс MergeSorting и реализует интерфейс SortingAlgorithm
      */
-    private static class AscendingMergeSorting extends MergeSorting {
+    public static class AscendingMergeSorting extends MergeSorting {
         /**
          * Реализация алгоритма нисходящей сортировки слиянием.
          *
-         * Метод модифицирует статическое поле (@code values)
-         * класса (@code SortingExecutor).
+         * @param values сортируемый массив
+         * @return остортированный массив
          */
         @Override
-        public void sort() {
-            temp = new Comparable[arrLen];
-            for(int subArraySize = 1; subArraySize<arrLen; subArraySize += subArraySize)
-                for(int lowestIndex = 0; lowestIndex < arrLen - subArraySize; lowestIndex += subArraySize*2)
+        public Comparable[] sort(Comparable[] values) {
+            temp = new Comparable[getArrLen()];
+            for(int subArraySize = 1; subArraySize< getArrLen(); subArraySize += subArraySize)
+                for(int lowestIndex = 0; lowestIndex < getArrLen() - subArraySize; lowestIndex += subArraySize*2)
                     merge(lowestIndex,
-                            lowestIndex+subArraySize-1, Math.min(lowestIndex + subArraySize*2-1,arrLen-1));
+                            lowestIndex+subArraySize-1, Math.min(lowestIndex + subArraySize*2-1, getArrLen() -1));
+            return values;
         }
     }
 

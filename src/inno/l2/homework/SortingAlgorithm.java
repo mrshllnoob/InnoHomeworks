@@ -5,6 +5,6 @@ package inno.l2.homework;
  */
 public interface SortingAlgorithm {
 
-    void sort();
+    Comparable[] sort(Comparable[] comp);
 
 }
