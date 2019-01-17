@@ -16,8 +16,8 @@ import java.util.Collection;
  */
 public class BoxesTestDrive {
 
-    private static int arrLen = 18;
-    private static int maxRandom = 10;
+    private static int arrLen = 100;
+    private static int maxRandom = 50;
     private static int divider = 2;
     private static int valueToRemove = 3;
 
@@ -26,13 +26,13 @@ public class BoxesTestDrive {
         System.out.println(mathBox);
         System.out.println("Sum of all elements equals " + MathBox.summator(mathBox.getBoxedElements()));
         Collection s = MathBox.splitter(mathBox.getBoxedElements(),divider);
-        System.out.println("After division on " + divider + " collection look like");
+        System.out.println("\nAfter division on " + divider + " collection look like");
         MathBox.showNumericCollectionElems(s);
-        System.out.println("Current example of MathBox " +
+        System.out.println("\nCurrent example of MathBox " +
                                 " has hashcode equal to:\n"
                                                                 + mathBox.hashCode());
         mathBox.removeIfExists(valueToRemove);
-        System.out.println("Current example of MathBox " +
+        System.out.println("\nCurrent example of MathBox " +
                                 " after deletion of element==" +
                                         valueToRemove + ":\n" + mathBox);
 
@@ -52,9 +52,12 @@ public class BoxesTestDrive {
         objectBox.dump();
         System.out.println();
 
-        mathBox.addObject(2);
+        System.out.println("__________________________________________________________________________\n\n");
+
+        mathBox.addObject(1);
         mathBox.dump();
-        mathBox.deleteObject(3);
+        System.out.println();
+        mathBox.deleteObject(1);
         System.out.println(mathBox);
 
     }
