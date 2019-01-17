@@ -32,7 +32,7 @@ public class SortingExecutor {
      * Сортировка выбором - класс SelectionSorting
      * Сортировка вставками - класс InsertionSorting
      * Усовершенствованный алгоритм сортировки вставками -
-     *  класс ImprovedInsertionSorting
+     *   класс ImprovedInsertionSorting
      * Сортировка Шелла - класс ShellSorting
      * Нисходящая сортировка слиянием - класс DescendingMergeSorting
      * Восходящая сортировка слиянием - класс AscendingMergeSorting
