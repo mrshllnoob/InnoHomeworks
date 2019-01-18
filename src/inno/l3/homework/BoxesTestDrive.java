@@ -24,6 +24,7 @@ public class BoxesTestDrive {
     public static void main(String[] args) {
         MathBox mathBox = MathBox.createInstanceOfMathBox(arrLen, maxRandom);
         System.out.println(mathBox);
+        System.out.println(mathBox.getBoxedElements().hashCode());
         System.out.println("Sum of all elements equals " + MathBox.summator(mathBox.getBoxedElements()));
         Collection s = MathBox.splitter(mathBox.getBoxedElements(),divider);
         System.out.println("\nAfter division on " + divider + " collection look like");
@@ -35,6 +36,8 @@ public class BoxesTestDrive {
         System.out.println("\nCurrent example of MathBox " +
                                 " after deletion of element==" +
                                         valueToRemove + ":\n" + mathBox);
+        System.out.println(mathBox.hashCode());
+        System.out.println(mathBox.getBoxedElements().hashCode());
 
         System.out.println("__________________________________________________________________________");
 

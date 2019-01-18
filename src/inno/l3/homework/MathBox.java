@@ -29,6 +29,7 @@ import java.util.TreeSet;
 public final class MathBox<T extends Number> extends ObjectBox<T>{
 
     private Collection<T> boxedElements;
+    private final Integer hashcode;
 
     /**
      * Конструктор класса. Внутри конструктора создается и
@@ -37,6 +38,7 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      */
     public MathBox(T[] intArray) {
         setBoxedElements(new TreeSet<>(Arrays.asList(intArray)));
+        this.hashcode = hashCode();
     }
 
     /**
@@ -119,13 +121,17 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      */
     @Override
     public int hashCode() {
-        int result = 0;
-        int counter = 0;
-        for (Number elem : this.boxedElements) {
-            counter += 1;
-            result += elem.intValue() + counter / Math.pow(counter,counter);
+        if (this.hashcode != null)
+            return this.hashcode;
+        else {
+            int result = 0;
+            int counter = 0;
+            for (Number elem : this.boxedElements) {
+                counter += 1;
+                result += elem.intValue() + counter / Math.pow(counter, counter);
+            }
+            return result;
         }
-        return result;
     }
 
     /**
