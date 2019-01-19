@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class DictionaryCreator {
 
-    private String sourcePath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/GEKTOPKEK.txt";
+    private String sourcePath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/MarkTwen.txt";
     private String dictPath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/dictionary.txt";
 
     /**
