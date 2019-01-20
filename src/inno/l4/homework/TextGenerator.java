@@ -20,8 +20,8 @@ public class TextGenerator {
     private Collection<String> dictionary = new ArrayList<>();
     private int dictSize = 1000;
     private String resultsPath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/gens/";
-    private int resultFileSize = 50;
-    private int probabilityDivider = 100;
+    private int resultFileSize = 5;
+    private int probabilityDivider = 1;
 
     /**
      * Конструктор класса принимает на вход коллекцию элементов и выбирает из нее
@@ -29,7 +29,8 @@ public class TextGenerator {
      * помещаются в поле (@code dictionary).
      * @param coll коллекция элементов
      */
-    public TextGenerator(Collection<String> coll) {
+    public TextGenerator(Collection<String> coll, int value) {
+        setDictSize(value);
         setDictionary(coll);
     }
 
@@ -40,7 +41,7 @@ public class TextGenerator {
      */
     public void setDictionary(Collection<String> coll) {
         Random rand = new Random();
-        for(int i=0; i<dictSize;i++) {
+        for(int i = 0; i< getDictSize(); i++) {
             int randomIndex = rand.nextInt(coll.size()-1);
             int counter = 0;
             Iterator iter = coll.iterator();
@@ -112,6 +113,14 @@ public class TextGenerator {
         this.probabilityDivider = probabilityDivider;
     }
 
+    public int getDictSize() {
+        return dictSize;
+    }
+
+    public void setDictSize(int dictSize) {
+        this.dictSize = dictSize;
+    }
+
     /**
      * Генерирует определенное в параметрах кол-во файлов, содержащих
      * сгенерированный текст. Генерация текста контролируется параметрами
@@ -145,7 +154,6 @@ public class TextGenerator {
                 PrintWriter pw = new PrintWriter(bout)) {
             String result = buildText(size, words, probabilityDivider);
             pw.write(result);
-            System.out.println(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +173,6 @@ public class TextGenerator {
         for (int i=1; i<=size; i++) {
             resultText += buildParagraph(coll,probabilityDivider);
         }
-        System.out.println(resultText);
         return resultText;
     }
 
@@ -183,7 +190,6 @@ public class TextGenerator {
         for (int i=0; i<phrasesAmount; i++) {
             resultParagraph += generatePhrase(coll, probabilityDivider);
         }
-        System.out.println(resultParagraph);
         return resultParagraph + "\n\r";
     }
 
@@ -241,14 +247,14 @@ public class TextGenerator {
     public static void main(String[] args) {
         DictionaryCreator dictionaryCreator = new DictionaryCreator();
         Collection<String> dictionary = dictionaryCreator.produceDictionaryCollection();
-        TextGenerator textGenerator = new TextGenerator(dictionary);
+        TextGenerator textGenerator = new TextGenerator(dictionary, 1000);
         textGenerator.show();
         TextGenerator.generateDankTextFiles(textGenerator.getResultsPath(),
-                                50, textGenerator.getResultFileSize(),
+                                1, textGenerator.getResultFileSize(),
                                         textGenerator.getDictionary(), textGenerator.getProbabilityDivider());
     }
 
-    private void show() {
+    public void show() {
         int i = 1;
         for(String elem : this.getDictionary())
             System.out.println(elem + " " + i++);

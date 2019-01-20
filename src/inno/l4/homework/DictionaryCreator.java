@@ -1,6 +1,7 @@
 package inno.l4.homework;
 
 import java.io.*;
+import java.util.Collection;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,8 +33,8 @@ public class DictionaryCreator {
      * @param out путь до генерируемого файла
      */
     public DictionaryCreator(String src, String out) {
-        this.sourcePath = src;
-        this.dictPath = out;
+        this.setSourcePath(src);
+        this.setDictPath(out);
     }
 
     /**
@@ -45,7 +46,7 @@ public class DictionaryCreator {
      */
     public final TreeSet<String> produceDictionaryCollection() {
         TreeSet<String> collector = new TreeSet<>();
-        try (FileReader fin = new FileReader(new File(sourcePath));
+        try (FileReader fin = new FileReader(new File(getSourcePath()));
              BufferedReader in = new BufferedReader(fin)) {
              String line;
              while((line = in.readLine())!=null) {
@@ -66,11 +67,53 @@ public class DictionaryCreator {
         return collector;
     }
 
+    /**
+     * Записывает коллекцию слов в файл.
+     *
+     * @param coll коллекция строк
+     * @param path путь до формируемого файла
+     * @param dictSize кол-во слов в формируемом файле
+     */
+    public static void outputDictionaryIntoFile(Collection<String> coll, String path, int dictSize) {
+        try (FileOutputStream fos = new FileOutputStream(new File(path));
+                PrintWriter out = new PrintWriter(fos)) {
+            int i = 1;
+            String result = "";
+            for (String elem : coll) {
+                if (i==dictSize)
+                    break;
+                result += elem + " ";
+                i += 1;
+            }
+            out.write(result);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         DictionaryCreator dictionaryCreator = new DictionaryCreator();
         TreeSet<String> coll = dictionaryCreator.produceDictionaryCollection();
         int i = 1;
         for(String elem : coll)
             System.out.println(elem + " " + i++);
+    }
+
+    public String getSourcePath() {
+        return sourcePath;
+    }
+
+    public void setSourcePath(String sourcePath) {
+        this.sourcePath = sourcePath;
+    }
+
+    public String getDictPath() {
+        return dictPath;
+    }
+
+    public void setDictPath(String dictPath) {
+        this.dictPath = dictPath;
     }
 }

@@ -9,6 +9,7 @@ public class ListOperator implements Serializable{
     private String serializeDest = "src/inno/l4/homework/serialized/";
     private ArrayList<String> parsedTextFileList = new ArrayList<>();
 
+
     public ListOperator() {
         this.setParsedTextFileList(this.parseFile());
     }
@@ -16,6 +17,7 @@ public class ListOperator implements Serializable{
     public ListOperator(String filePath) {
         this.setParsedTextFileList(this.parseFile(filePath));
     }
+
 
     public String getFilePath() {
         return filePath;
@@ -56,6 +58,7 @@ public class ListOperator implements Serializable{
         }
         return result;
     }
+
 
     public ArrayList<String> parseFile() {
         try (FileReader fin = new FileReader(new File(filePath));
