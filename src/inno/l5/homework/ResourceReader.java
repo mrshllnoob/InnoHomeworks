@@ -161,7 +161,7 @@ public class ResourceReader {
                     for (String elem : arr) {
                         if (elem.contains(words[finalJ])) {
                             innerLock.lock();
-                            System.out.println(elem + " ||| " + words[finalJ]);
+                            //System.out.println(elem + " ||| " + words[finalJ]);
                             resultList.add(elem);
                             innerLock.unlock();
                         }

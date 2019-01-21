@@ -21,9 +21,10 @@ public class MultithreadingExecutor {
     public static void main(String[] args) {
         try {
             ResourceReader.getOccurencies(
-                    ResourceReader.buildArrayOfSourcesPaths("src/inno/l5/homework/mediumsrc/"),
+                    ResourceReader.buildArrayOfSourcesPaths("src/inno/l5/homework/smallsrc/"),
                     ResourceReader.getWordsFromFile("src/inno/l5/homework/dictionary.txt"),
                     "src/inno/l5/homework/res.txt");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
