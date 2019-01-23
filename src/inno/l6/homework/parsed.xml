@@ -1,0 +1,158 @@
+
+<CLASSNODE 0>
+	<CLASSNAME>java.lang.Thread</CLASSNAME>
+	<FIELDS>
+		<FIELD 2><Object type>name=name;type=java.lang.String;value=Thread-0
+			<CLASSNODE 3>
+				<CLASSNAME>java.lang.String</CLASSNAME>
+				<FIELDS>
+					<FIELD 5><Array>type=char[];values=Thread-0</Array></FIELD 5>
+					<FIELD 5><Primitive>name=hash;type=int;value=0</Primitive></FIELD 5>
+									</FIELDS>
+			</CLASSNODE 3>
+			</Object type>
+		</FIELD 2>
+		<FIELD 2><Primitive>name=priority;type=int;value=5</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=eetop;type=long;value=0</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=single_step;type=boolean;value=false</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=daemon;type=boolean;value=false</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=stillborn;type=boolean;value=false</Primitive></FIELD 2>
+		<FIELD 2><Object type>name=group;type=java.lang.ThreadGroup;value=java.lang.ThreadGroup[name=main,maxpri=10]
+			<CLASSNODE 3>
+				<CLASSNAME>java.lang.ThreadGroup</CLASSNAME>
+				<FIELDS>
+					<FIELD 5><Object type>name=parent;type=java.lang.ThreadGroup;value=java.lang.ThreadGroup[name=system,maxpri=10]
+						<CLASSNODE 6>
+							<CLASSNAME>java.lang.ThreadGroup</CLASSNAME>
+							<FIELDS>
+								<FIELD 8><Object type>name=name;type=java.lang.String;value=system
+									<CLASSNODE 9>
+										<CLASSNAME>java.lang.String</CLASSNAME>
+										<FIELDS>
+											<FIELD 11><Array>type=char[];values=system</Array></FIELD 11>
+											<FIELD 11><Primitive>name=hash;type=int;value=0</Primitive></FIELD 11>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Primitive>name=maxPriority;type=int;value=10</Primitive></FIELD 8>
+								<FIELD 8><Primitive>name=destroyed;type=boolean;value=false</Primitive></FIELD 8>
+								<FIELD 8><Primitive>name=daemon;type=boolean;value=false</Primitive></FIELD 8>
+								<FIELD 8><Primitive>name=vmAllowSuspension;type=boolean;value=false</Primitive></FIELD 8>
+								<FIELD 8><Primitive>name=nUnstartedThreads;type=int;value=4</Primitive></FIELD 8>
+								<FIELD 8><Primitive>name=nthreads;type=int;value=3</Primitive></FIELD 8>
+								<FIELD 8><Array>type=java.lang.Thread[];values=</Array></FIELD 8>
+								<FIELD 8><Primitive>name=ngroups;type=int;value=1</Primitive></FIELD 8>
+								<FIELD 8><Array>type=java.lang.ThreadGroup[];values=</Array></FIELD 8>
+															</FIELDS>
+						</CLASSNODE 6>
+						</Object type>
+					</FIELD 5>
+					<FIELD 5><Object type>name=name;type=java.lang.String;value=main
+						<CLASSNODE 6>
+							<CLASSNAME>java.lang.String</CLASSNAME>
+							<FIELDS>
+								<FIELD 8><Array>type=char[];values=main</Array></FIELD 8>
+								<FIELD 8><Primitive>name=hash;type=int;value=0</Primitive></FIELD 8>
+															</FIELDS>
+						</CLASSNODE 6>
+						</Object type>
+					</FIELD 5>
+					<FIELD 5><Primitive>name=maxPriority;type=int;value=10</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=destroyed;type=boolean;value=false</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=daemon;type=boolean;value=false</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=vmAllowSuspension;type=boolean;value=false</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=nUnstartedThreads;type=int;value=1</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=nthreads;type=int;value=2</Primitive></FIELD 5>
+					<FIELD 5><Array>type=java.lang.Thread[];values=</Array></FIELD 5>
+					<FIELD 5><Primitive>name=ngroups;type=int;value=0</Primitive></FIELD 5>
+									</FIELDS>
+			</CLASSNODE 3>
+			</Object type>
+		</FIELD 2>
+		<FIELD 2><Object type>name=contextClassLoader;type=java.lang.ClassLoader;value=sun.misc.Launcher$AppClassLoader@18b4aac2
+			<CLASSNODE 3>
+				<CLASSNAME>sun.misc.Launcher$AppClassLoader</CLASSNAME>
+				<FIELDS>
+					<FIELD 5><Object type>name=ucp;type=sun.misc.URLClassPath;value=sun.misc.URLClassPath@45ee12a7
+						<CLASSNODE 6>
+							<CLASSNAME>sun.misc.URLClassPath</CLASSNAME>
+							<FIELDS>
+								<FIELD 8><Object type>name=path;type=java.util.ArrayList;value=[file:/usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/deploy.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/cldrdata.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/dnsns.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/jaccess.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/jfxrt.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/localedata.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/nashorn.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunec.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunjce_provider.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/sunpkcs11.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/ext/zipfs.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/javaws.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/jce.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/jfxswt.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/management-agent.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/plugin.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/resources.jar, file:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar, file:/home/sa/IdeaProjects/InnoHomeworks/out/production/InnoHomeworks/, file:/home/sa/Downloads/idea-IU-183.5153.38/lib/idea_rt.jar]
+									<CLASSNODE 9>
+										<CLASSNAME>java.util.ArrayList</CLASSNAME>
+										<FIELDS>
+											<FIELD 11><Primitive>name=size;type=int;value=23</Primitive></FIELD 11>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Object type>name=urls;type=java.util.Stack;value=[]
+									<CLASSNODE 9>
+										<CLASSNAME>java.util.Stack</CLASSNAME>
+										<FIELDS>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Object type>name=loaders;type=java.util.ArrayList;value=[sun.misc.URLClassPath$JarLoader@7ea987ac, sun.misc.URLClassPath$JarLoader@12a3a380, sun.misc.URLClassPath$JarLoader@29453f44, sun.misc.URLClassPath$JarLoader@5cad8086, sun.misc.URLClassPath$JarLoader@6e0be858, sun.misc.URLClassPath$JarLoader@61bbe9ba, sun.misc.URLClassPath$JarLoader@610455d6, sun.misc.URLClassPath$JarLoader@511d50c0, sun.misc.URLClassPath$JarLoader@60e53b93, sun.misc.URLClassPath$JarLoader@5e2de80c, sun.misc.URLClassPath$JarLoader@1d44bcfa, sun.misc.URLClassPath$JarLoader@266474c2, sun.misc.URLClassPath$JarLoader@6f94fa3e, sun.misc.URLClassPath$JarLoader@5e481248, sun.misc.URLClassPath$JarLoader@66d3c617, sun.misc.URLClassPath$JarLoader@63947c6b, sun.misc.URLClassPath$JarLoader@2b193f2d, sun.misc.URLClassPath$JarLoader@355da254, sun.misc.URLClassPath$JarLoader@4dc63996, sun.misc.URLClassPath$JarLoader@d716361, sun.misc.URLClassPath$JarLoader@6ff3c5b5, sun.misc.URLClassPath$FileLoader@3764951d, sun.misc.URLClassPath$JarLoader@4b1210ee]
+									<CLASSNODE 9>
+										<CLASSNAME>java.util.ArrayList</CLASSNAME>
+										<FIELDS>
+											<FIELD 11><Primitive>name=size;type=int;value=23</Primitive></FIELD 11>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Object type>name=lmap;type=java.util.HashMap;value={file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/jaccess.jar=sun.misc.URLClassPath$JarLoader@6e0be858, file:///usr/lib/jvm/java-8-oracle/jre/lib/plugin.jar=sun.misc.URLClassPath$JarLoader@4dc63996, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/cldrdata.jar=sun.misc.URLClassPath$JarLoader@29453f44, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/sunpkcs11.jar=sun.misc.URLClassPath$JarLoader@1d44bcfa, file:///usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar=sun.misc.URLClassPath$JarLoader@2b193f2d, file:///home/sa/IdeaProjects/InnoHomeworks/out/production/InnoHomeworks/=sun.misc.URLClassPath$FileLoader@3764951d, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/dnsns.jar=sun.misc.URLClassPath$JarLoader@5cad8086, file:///usr/lib/jvm/java-8-oracle/jre/lib/management-agent.jar=sun.misc.URLClassPath$JarLoader@355da254, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/jfxrt.jar=sun.misc.URLClassPath$JarLoader@61bbe9ba, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/zipfs.jar=sun.misc.URLClassPath$JarLoader@266474c2, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/sunjce_provider.jar=sun.misc.URLClassPath$JarLoader@5e2de80c, file:///usr/lib/jvm/java-8-oracle/jre/lib/rt.jar=sun.misc.URLClassPath$JarLoader@6ff3c5b5, file:///usr/lib/jvm/java-8-oracle/jre/lib/jce.jar=sun.misc.URLClassPath$JarLoader@5e481248, file:///usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar=sun.misc.URLClassPath$JarLoader@66d3c617, file:///usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar=sun.misc.URLClassPath$JarLoader@7ea987ac, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/nashorn.jar=sun.misc.URLClassPath$JarLoader@511d50c0, file:///usr/lib/jvm/java-8-oracle/jre/lib/javaws.jar=sun.misc.URLClassPath$JarLoader@6f94fa3e, file:///usr/lib/jvm/java-8-oracle/jre/lib/jfxswt.jar=sun.misc.URLClassPath$JarLoader@63947c6b, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/localedata.jar=sun.misc.URLClassPath$JarLoader@610455d6, file:///usr/lib/jvm/java-8-oracle/jre/lib/deploy.jar=sun.misc.URLClassPath$JarLoader@12a3a380, file:///usr/lib/jvm/java-8-oracle/jre/lib/resources.jar=sun.misc.URLClassPath$JarLoader@d716361, file:///home/sa/Downloads/idea-IU-183.5153.38/lib/idea_rt.jar=sun.misc.URLClassPath$JarLoader@4b1210ee, file:///usr/lib/jvm/java-8-oracle/jre/lib/ext/sunec.jar=sun.misc.URLClassPath$JarLoader@60e53b93}
+									<CLASSNODE 9>
+										<CLASSNAME>java.util.HashMap</CLASSNAME>
+										<FIELDS>
+											<FIELD 11><Primitive>name=threshold;type=int;value=24</Primitive></FIELD 11>
+											<FIELD 11><Primitive>name=loadFactor;type=float;value=0.75</Primitive></FIELD 11>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Object type>name=jarHandler;type=java.net.URLStreamHandler;value=sun.net.www.protocol.jar.Handler@3cd1a2f1
+									<CLASSNODE 9>
+										<CLASSNAME>sun.net.www.protocol.jar.Handler</CLASSNAME>
+										<FIELDS>
+																					</FIELDS>
+									</CLASSNODE 9>
+									</Object type>
+								</FIELD 8>
+								<FIELD 8><Primitive>name=closed;type=boolean;value=false</Primitive></FIELD 8>
+															</FIELDS>
+						</CLASSNODE 6>
+						</Object type>
+					</FIELD 5>
+									</FIELDS>
+			</CLASSNODE 3>
+			</Object type>
+		</FIELD 2>
+		<FIELD 2><Object type>name=inheritedAccessControlContext;type=java.security.AccessControlContext;value=java.security.AccessControlContext@677327b6
+			<CLASSNODE 3>
+				<CLASSNAME>java.security.AccessControlContext</CLASSNAME>
+				<FIELDS>
+					<FIELD 5><Array>type=java.security.ProtectionDomain[];values=</Array></FIELD 5>
+					<FIELD 5><Primitive>name=isPrivileged;type=boolean;value=false</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=isAuthorized;type=boolean;value=true</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=isWrapped;type=boolean;value=false</Primitive></FIELD 5>
+					<FIELD 5><Primitive>name=isLimited;type=boolean;value=false</Primitive></FIELD 5>
+									</FIELDS>
+			</CLASSNODE 3>
+			</Object type>
+		</FIELD 2>
+		<FIELD 2><Primitive>name=stackSize;type=long;value=0</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=nativeParkEventPointer;type=long;value=0</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=tid;type=long;value=10</Primitive></FIELD 2>
+		<FIELD 2><Primitive>name=threadStatus;type=int;value=0</Primitive></FIELD 2>
+		<FIELD 2><Object type>name=blockerLock;type=java.lang.Object;value=java.lang.Object@49476842
+		</Object type>
+	</FIELD 1>
+	<FIELD 1><Primitive>name=threadLocalRandomSeed;type=long;value=0</Primitive></FIELD 1>
+	<FIELD 1><Primitive>name=threadLocalRandomProbe;type=int;value=0</Primitive></FIELD 1>
+	<FIELD 1><Primitive>name=threadLocalRandomSecondarySeed;type=int;value=0</Primitive></FIELD 1>
+	</FIELDS>
+</CLASSNODE -1>
