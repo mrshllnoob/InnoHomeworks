@@ -3,7 +3,6 @@ package inno.l3.homework;
 import inno.l2.homework.SortingExecutor;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
@@ -28,8 +27,8 @@ import java.util.TreeSet;
  */
 public final class MathBox<T extends Number> extends ObjectBox<T>{
 
-    private Collection<T> boxedElements;
-    private final Integer hashcode;
+    //private Collection<T> boxedElements;
+    //private final Integer hashcode;
 
     /**
      * Конструктор класса. Внутри конструктора создается и
@@ -37,8 +36,8 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      * @param intArray массив числовых элементов
      */
     public MathBox(T[] intArray) {
+        super(intArray);
         setBoxedElements(new TreeSet<>(Arrays.asList(intArray)));
-        this.hashcode = hashCode();
     }
 
     /**
@@ -63,7 +62,7 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      * @param values коллекция числовых значений
      * @return сумма элементов коллекции
      */
-    public static BigInteger summator(final Collection<? extends Number> values) {
+    public BigInteger summator(final Collection<? extends Number> values) {
         BigInteger result = BigInteger.ZERO;
         for(final Number elem : values)
             result = result.add(new BigInteger(String.valueOf(elem.longValue())));
@@ -90,7 +89,7 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      * @return коллекция. содержащая результат работы метода
      */
     public static Collection<? extends Number> splitter(final Collection<? extends Number> values, Integer delimiterValue) {
-        Collection result = new ArrayList();
+        Collection result = new TreeSet();
         for(Number elem : values)
             result.add((Integer)elem/delimiterValue);
         return result;

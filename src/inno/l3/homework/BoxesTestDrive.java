@@ -1,5 +1,7 @@
 package inno.l3.homework;
 
+import inno.l2.homework.SortingExecutor;
+
 import java.util.Collection;
 
 /**
@@ -25,7 +27,7 @@ public class BoxesTestDrive {
         MathBox mathBox = MathBox.createInstanceOfMathBox(arrLen, maxRandom);
         System.out.println(mathBox);
         System.out.println(mathBox.getBoxedElements().hashCode());
-        System.out.println("Sum of all elements equals " + MathBox.summator(mathBox.getBoxedElements()));
+        System.out.println("Sum of all elements equals " + mathBox.summator(mathBox.getBoxedElements()));
         Collection s = MathBox.splitter(mathBox.getBoxedElements(),divider);
         System.out.println("\nAfter division on " + divider + " collection look like");
         MathBox.showNumericCollectionElems(s);
@@ -41,17 +43,17 @@ public class BoxesTestDrive {
 
         System.out.println("__________________________________________________________________________");
 
-        ObjectBox objectBox = new ObjectBox();
+        ObjectBox objectBox = new ObjectBox(SortingExecutor.generateIntegersArray(arrLen));
         Object a  = new Object();
         Object b = new Object();
         Object c = new Object();
-        objectBox.addObject(a);
-        objectBox.addObject(b);
-        objectBox.addObject(c);
+//        objectBox.addObject(a);
+//        objectBox.addObject(b);
+//        objectBox.addObject(c);
         objectBox.dump();
-        objectBox.deleteObject(a);
+//        objectBox.deleteObject(a);
         objectBox.dump();
-        objectBox.deleteObject(b);
+//        objectBox.deleteObject(b);
         objectBox.dump();
         System.out.println();
 
