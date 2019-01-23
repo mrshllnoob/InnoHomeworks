@@ -1,5 +1,8 @@
 package inno.l2.homework;
 
+import inno.l2.homework.sorting.SortingAlgorithm;
+import inno.l2.homework.sorting.algs.AscendingMergeSorting;
+
 import java.util.Random;
 
 /**
@@ -39,11 +42,11 @@ public class SortingExecutor {
      */
     public static void main(String[] args) {
         alg = new AscendingMergeSorting();
-        values = generateIntegersArray(getArrLen());
-        show(values);
-        Comparable[] sortedValues = alg.sort(values);
-        assert isSorted(values);
-        show(values);
+        setValues(generateIntegersArray(getArrLen()));
+        show(getValues());
+        Comparable[] sortedValues = alg.sort(getValues());
+        assert isSorted(getValues());
+        show(getValues());
     }
 
     /**
@@ -157,210 +160,11 @@ public class SortingExecutor {
         return randomRange;
     }
 
-    /**
-     * Класс в методе (@code sort()) которого реализован алгоритм сортировки вставками.
-     * Реализует интерфейс SortingAlgorithm.
-     */
-    public static class InsertionSorting implements SortingAlgorithm {
-
-        /**
-         * Сортировка вставками.
-         *
-         * @param values сортируемый массив
-         * @return остортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            for(int i = 1; i< getArrLen(); i++)
-                for(int j=i;j>0 && less(values[j],values[j-1]);j--)
-                    exchangeElements(values, j,j-1);
-            return values;
-        }
+    public static Comparable[] getValues() {
+        return values;
     }
 
-    /**
-     * Класс в методе (@code sort()) которого реализован усовершенствованный алгоритм сортировки вставками.
-     * Реализует интерфейс SortingAlgorithm.
-     */
-    public static class ImprovedInsertionSorting implements SortingAlgorithm {
-
-        /**
-         * Усовершенствованная сортировка вставками.
-         *
-         * @param values сортируемый массив
-         * @return отсортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            int exchanges = 0;
-            for (int i = getArrLen() -1; i > 0; i--) {
-                if (less(values[i], values[i-1])) {
-                    exchangeElements(values, i, i-1);
-                    exchanges++;
-                }
-            }
-            if (exchanges == 0) return new Integer[0];
-
-            for (int i = 2; i < getArrLen(); i++) {
-                Comparable v = values[i];
-                int j = i;
-                while (less(v, values[j-1])) {
-                    values[j] = values[j-1];
-                    j--;
-                }
-                values[j] = v;
-            }
-            return values;
-        }
-    }
-
-    /**
-     * Класс в методе (@code sort()) которого реализован алгоритм сортировки выбором.
-     * Реализует интерфейс SortingAlgorithm.
-     */
-    public static class SelectionSorting implements SortingAlgorithm {
-
-        /**
-         * Сортировка выбором.
-         */
-        /**
-         * Сортировка выбором.
-         *
-         * @param values сортируемый массив
-         * @return остортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            for(int i = 0; i< getArrLen(); i++) {
-                int min = i;
-                for(int j = i+1; j< getArrLen(); j++)
-                    if(less(values[j], values[min]))
-                        min = j;
-                exchangeElements(values,i,min);
-            }
-            return values;
-        }
-    }
-
-    /**
-     * Класс в методе (@code sort()) которого реализован алгоритм сортировки Шелла.
-     * Реализует интерфейс SortingAlgorithm.
-     */
-    public static class ShellSorting implements SortingAlgorithm {
-
-        /**
-         * Сортировка Шелла
-         *
-         * @param values сортируемый массив
-         * @return остортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            int h = 1;
-            while(h< getArrLen() /3)
-                h = 3*h + 1;
-
-            while(h>=1) {
-                for(int i = h; i< getArrLen(); i++) {
-                    for(int j=i;j>=h && less(values[j],values[j-h]);j-=h)
-                        exchangeElements(values,j,j-h);
-                }
-                h = h/3;
-            }
-            return values;
-        }
-    }
-
-    /**
-     * Класс, содержащий реализацию алгоритма нисходящей сортировки слиянием.
-     *
-     * Имеет перегруженный метод (@code sort())
-     * Наследует класс MergeSorting и реализует интерфейс SortingAlgorithm
-     */
-    public static class DescendingMergeSorting extends MergeSorting {
-
-        /**
-         * Реализация метода (@code sort()) интерфейса SortingAlgorithm.
-         *
-         * Здесь задается размер временного массива (@code temp) и вызывается
-         * метод (@code sort(int,int)) с аргументами, указывающими на начало и
-         * конец сортируемого массива.
-         *
-         * @param values сортируемый массив
-         * @return остортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            temp = new Comparable[values.length];
-            sort( 0, getArrLen() - 1);
-            return values;
-        }
-
-        /**
-         * Реализация алгоритма нисходящей сортировки слиянием.
-         *
-         * Метод модифицирует статическое поле (@code values)
-         * класса (@code SortingExecutor).
-         * @param lowestIndex наименьшей индекс массива
-         * @param highestIndex наибольший индекс массива
-         */
-        private void sort(int lowestIndex, int highestIndex) {
-            if (highestIndex<=lowestIndex) return;
-            int middleIndex = lowestIndex + (highestIndex - lowestIndex)/2;
-            sort(lowestIndex, middleIndex);
-            sort(middleIndex + 1, highestIndex);
-            merge(lowestIndex, middleIndex, highestIndex);
-        }
-    }
-
-    /**
-     * Класс, содержащий реализацию алгоритма восходящей сортировки слиянием.
-     *
-     * Имеет перегруженный метод (@code sort())
-     * Наследует класс MergeSorting и реализует интерфейс SortingAlgorithm
-     */
-    public static class AscendingMergeSorting extends MergeSorting {
-        /**
-         * Реализация алгоритма нисходящей сортировки слиянием.
-         *
-         * @param values сортируемый массив
-         * @return остортированный массив
-         */
-        @Override
-        public Comparable[] sort(Comparable[] values) {
-            temp = new Comparable[getArrLen()];
-            for(int subArraySize = 1; subArraySize< getArrLen(); subArraySize += subArraySize)
-                for(int lowestIndex = 0; lowestIndex < getArrLen() - subArraySize; lowestIndex += subArraySize*2)
-                    merge(lowestIndex,
-                            lowestIndex+subArraySize-1, Math.min(lowestIndex + subArraySize*2-1, getArrLen() -1));
-            return values;
-        }
-    }
-
-    /**
-     * Абстрактный класс для алгоритмов сортировки слиянием.
-     *
-     * Имеет метод (@code merge()) отвечающий за слияние временного (@code temp)
-     * и сортируемого массивов.
-     * Реализует интерфейс SortingAlgorithm.
-     */
-    private abstract static class MergeSorting implements SortingAlgorithm{
-        public Comparable[] temp;
-
-        public final void merge(int lowestIndex, int middleIndex, int highestIndex) {
-            int i = lowestIndex;
-            int j = middleIndex + 1;
-            for(int k=lowestIndex;k<=highestIndex;k++)
-                temp[k] = values[k];
-            for(int k = lowestIndex;k<=highestIndex; k++)
-                if (i>middleIndex)
-                    values[k] = temp[j++];
-                else if (j>highestIndex)
-                    values[k] = temp[i++];
-                else if (less(temp[j],temp[i]))
-                    values[k] = temp[j++];
-                else
-                    values[k] = temp[i++];
-        }
+    public static void setValues(Comparable[] values) {
+        SortingExecutor.values = values;
     }
 }

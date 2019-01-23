@@ -1,4 +1,4 @@
-package inno.l2.homework;
+package inno.l2.homework.sorting;
 
 /**
  * Интерфейс для конкретных реализаций алгоритмов сортировки.
