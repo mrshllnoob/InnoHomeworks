@@ -167,4 +167,10 @@ public class SortingExecutor {
     public static void setValues(Comparable[] values) {
         SortingExecutor.values = values;
     }
+
+    public static boolean isArrayEqNull(Comparable[] values) {
+        if (values == null)
+            return true;
+        return false;
+    }
 }

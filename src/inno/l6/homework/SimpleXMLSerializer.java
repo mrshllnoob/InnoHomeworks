@@ -1,6 +1,7 @@
 package inno.l6.homework;
 
 
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -23,7 +24,8 @@ public class SimpleXMLSerializer<T extends Object> {
 
     public void parseObject(T obj) throws IllegalAccessException {
         Class objClass = obj.getClass();
-        this.getDocument().append("\n" + generateTabs(++tabsAmount) + "<CLASSNODE>\n" + generateTabs(++tabsAmount)
+        this.getDocument().append("\n" + generateTabs(++tabsAmount) + "<CLASSNODE " +
+                                    (tabsAmount) +">\n" + generateTabs(++tabsAmount)
                                     + "<CLASSNAME>" + obj.getClass().getName() + "</CLASSNAME>\n"
                                     + generateTabs(tabsAmount));
         Field[] objFields = objClass.getDeclaredFields();
@@ -32,34 +34,33 @@ public class SimpleXMLSerializer<T extends Object> {
             f.setAccessible(true);
             if (!isViable(f, obj))
                 continue;
-            this.getDocument().append("<FIELD>");
+            this.getDocument().append("<FIELD " + tabsAmount + ">");
             if (f.getType().isPrimitive()) {
                 this.buildPrimitiveNode(f, obj);
-                this.getDocument().append("</FIELD>" + "\n" + generateTabs(tabsAmount));
+                this.getDocument().append("</FIELD " + tabsAmount + ">" + "\n" + generateTabs(tabsAmount));
                 continue;
             }
             else if (f.getType().isArray()) {
                 this.buildArrayNode(f, obj);
-                this.getDocument().append("</FIELD>" + "\n" + generateTabs(tabsAmount));
+                this.getDocument().append("</FIELD " + tabsAmount + ">" + "\n" + generateTabs(tabsAmount));
                 continue;
             }
             else {
                 this.buildComplexNode(f, obj);
-                this.getDocument().append("</FIELD>" + "\n" + generateTabs(tabsAmount));
+                this.getDocument().append("</FIELD " + tabsAmount + ">" + "\n" + generateTabs(tabsAmount));
             }
 
         }
         tabsAmount--;
-        this.getDocument().append("\b" + "</FIELDS>\n" +
-                generateTabs(--tabsAmount) + "</CLASSNODE>");
+        this.getDocument().append("\r" + generateTabs(tabsAmount) + "</FIELDS>\n" +
+                generateTabs(--tabsAmount) + "</CLASSNODE " + tabsAmount + ">");
     }
 
     private boolean isViable(Field f, T obj) throws IllegalAccessException {
         if (Modifier.toString(f.getModifiers()).contains("transient")
             || Modifier.toString(f.getModifiers()).contains("static")
-            || Modifier.toString(f.getModifiers()).contains("final")
-            || f.get(obj) == null || (f.getType().isPrimitive()
-                                        && obj.equals(0)))
+           // || Modifier.toString(f.getModifiers()).contains("final")
+            || f.get(obj) == null)
             return false;
         return true;
     }
@@ -78,10 +79,114 @@ public class SimpleXMLSerializer<T extends Object> {
 
     private void buildArrayNode(Field field, T obj) throws IllegalAccessException {
         this.getDocument().append("<Array>");
-        T value = (T) field.get(obj);
         String name = field.getName();
         String type = field.getType().getTypeName();
-        this.getDocument().append("type=" + type + ";values=" + value);
+        this.getDocument().append("type=" + type + ";values=");
+        if (field.getType().getTypeName().equals("char[]")) {
+            operateCharArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("byte[]")) {
+            operateByteArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("int[]")) {
+            operateIntArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("short[]")) {
+            operateShortArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("long[]")) {
+            operateLongArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("float[]")) {
+            operateFloatArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("double[]")) {
+            operateDoubleArray(field.get(obj));
+            return;
+        }
+        if (field.getType().getTypeName().equals("boolean[]")) {
+            operateBooleanArray(field.get(obj));
+            return;
+        }
+        else {
+            operateObjectArray(field.get(obj));
+            return;
+        }
+    }
+
+    private void operateCharArray(Object obj) {
+        char[] value = (char[]) obj;
+        for (char elem : value)
+            this.getDocument().append(elem);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateByteArray(Object obj) {
+        byte[] value = (byte[]) obj;
+        for (byte elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateIntArray(Object obj) {
+        int[] value = (int[]) obj;
+        for (int elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateShortArray(Object obj) {
+        short[] value = (short[]) obj;
+        for (short elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateLongArray(Object obj) {
+        long[] value = (long[]) obj;
+        for (long elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateFloatArray(Object obj) {
+        float[] value = (float[]) obj;
+        for (float elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateDoubleArray(Object obj) {
+        double[] value = (double[]) obj;
+        for (double elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateBooleanArray(Object obj) {
+        boolean[] value = (boolean[]) obj;
+        for (boolean elem : value)
+            this.getDocument().append(elem + "::");
+        this.getDocument().substring(0,this.getDocument().length()-2);
+        this.getDocument().append("</Array>");
+    }
+
+    private void operateObjectArray(Object obj) throws IllegalAccessException {
+//        Object[] value = (Object[]) obj;
+//        for (Object elem : value)
+//            parseObject((T) elem);
         this.getDocument().append("</Array>");
     }
 
@@ -109,17 +214,15 @@ public class SimpleXMLSerializer<T extends Object> {
     }
 
     public String wrapAndWrite(String path) {
-        //wrapping information 'bout obj into JSON view
-        //output built JSON into file path
-        //returns file path
+        try(FileWriter fw = new FileWriter(new File(path));
+            BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write(this.getDocument().toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "";
-    }
-
-    public T restoreObject(String filepath) {
-        //parse file
-        //use Reflection API to build new object
-        //return built Object
-        return null;
     }
 
     public T getObject() {

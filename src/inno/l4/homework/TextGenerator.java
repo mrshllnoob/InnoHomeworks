@@ -20,7 +20,7 @@ public class TextGenerator {
     private Collection<String> dictionary = new ArrayList<>();
     private int dictSize = 1000;
     private String resultsPath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/gens/";
-    private int resultFileSize = 5;
+    private int resultFileSize = 100000;
     private int probabilityDivider = 1;
 
     /**

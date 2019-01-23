@@ -45,7 +45,7 @@ public class ResourceReader {
     public static void getOccurencies(String[] sources, String[] words, String res) throws IOException {
         Lock lock = new ReentrantLock();
         ArrayList<String> collected = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
         for (int i=0; i<sources.length; i++) {
             int finalI = i;
             Runnable worker = new Thread(new Runnable() {
@@ -151,7 +151,7 @@ public class ResourceReader {
     private static ArrayList<String> storeMatches(String text, String[] words) {
         ArrayList<String> resultList = new ArrayList<>();
         Lock innerLock = new ReentrantLock();
-        ExecutorService innerExecutor = Executors.newFixedThreadPool(2);
+        ExecutorService innerExecutor = Executors.newFixedThreadPool(1);
         for (int j=0; j<words.length; j++){
             int finalJ = j;
             Runnable matchesStorer = new Thread(new Runnable() {
