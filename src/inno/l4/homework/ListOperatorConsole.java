@@ -6,8 +6,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+/**
+ * Класс предоставляющий возможность консольного управления
+ * считыванием информации из указанного файла в поле-коллекцию
+ * класса ListOperator, возможность сериализовать полученный
+ * в результате считывания класс и десериализовать его.
+ *
+ * @author Tsapin Anton
+ */
 public class ListOperatorConsole {
-
+    /**
+     * Позволяет вводить команды в stdin. Управление ListOperator
+     * классом осуществляется посредством 3х команд:
+     * parse %путь до файла%;
+     * serialize %путь до файла, куда следует сериализовать объект%;
+     * deserialize %путь до файла, откуда следует десериализовать объект%;
+     *
+     */
     public static void activateConsole() {
         try(InputStreamReader inputStreamReader = new InputStreamReader(System.in);
                 BufferedReader console = new BufferedReader(inputStreamReader);

@@ -3,6 +3,13 @@ package inno.l4.homework;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Класс содержащий методы для считывания содержимого из файла
+ * в поле-коллекцию класса ListOperator, а также методы сериализации
+ * и десериализации.
+ *
+ * @author Tsapin Anton
+ */
 public class ListOperator implements Serializable{
 
     private String filePath = "src/inno/l4/homework/MarkTwen.txt";
@@ -43,6 +50,12 @@ public class ListOperator implements Serializable{
         this.serializeDest = serializeDest;
     }
 
+    /**
+     * Считывание содержимого указанного файла в коллекцию.
+     *
+     * @param filePath путь до файла
+     * @return коллекция строк файла
+     */
     public static ArrayList<String> parseFile(String filePath) {
         ArrayList<String> result = new ArrayList<>();
         try (FileReader fin = new FileReader(new File("src/inno/l4/homework/" + filePath));
@@ -59,7 +72,12 @@ public class ListOperator implements Serializable{
         return result;
     }
 
-
+    /**
+     * Считывание содержимого указанного файла в поле-коллекцию
+     * класса ListOperator.
+     *
+     * @return
+     */
     public ArrayList<String> parseFile() {
         try (FileReader fin = new FileReader(new File(filePath));
              BufferedReader in = new BufferedReader(fin)) {
@@ -75,6 +93,11 @@ public class ListOperator implements Serializable{
         return this.parsedTextFileList;
     }
 
+    /**
+     * Сериализация класса ListOperator.
+     *
+     * @param destPath путь до сформированного файла
+     */
     public void serializeListOperator(String destPath) {
         try(FileOutputStream baos = new FileOutputStream(this.getSerializeDest() + destPath);
             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
@@ -84,6 +107,12 @@ public class ListOperator implements Serializable{
         }
     }
 
+    /**
+     * Десериализация класса ListOperator.
+     *
+     * @param path путь до файла сериализованного класса ListOperator.
+     * @return сериализованный ранее объект класса ListOperator
+     */
     public static ListOperator deserializeListOperator(String path) {
         ListOperator storedListOperator = null;
         try(FileInputStream baos = new FileInputStream("src/inno/l4/homework/serialized/" + path);
