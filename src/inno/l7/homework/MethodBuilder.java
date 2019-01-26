@@ -3,6 +3,7 @@ package inno.l7.homework;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public class MethodBuilder {
@@ -57,13 +58,23 @@ public class MethodBuilder {
 
 
     public static void main(String[] args) throws ClassNotFoundException {
-      //  MethodBuilder methodBuilder = new MethodBuilder();
-      //  methodBuilder.insertMethodBody(methodBuilder.getMethodFromStdIn().toString());
-      //  methodBuilder.compileAtRuntime();
+        MethodBuilder methodBuilder = new MethodBuilder();
+        methodBuilder.insertMethodBody(methodBuilder.getMethodFromStdIn().toString());
+        methodBuilder.compileAtRuntime();
         CustomClassLoader clloader = new CustomClassLoader(
                 "./", ClassLoader.getSystemClassLoader());
-        clloader.findClass("SomeClass");
-
+        Class objCl = clloader.findClass("SomeClass");
+        try {
+            objCl.getMethod("doWork").invoke(objCl.newInstance());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
 }

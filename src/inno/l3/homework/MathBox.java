@@ -88,7 +88,7 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      * @param delimiterValue целочисленный делитель
      * @return коллекция. содержащая результат работы метода
      */
-    public static Collection<? extends Number> splitter(final Collection<? extends Number> values, Integer delimiterValue) {
+    public Collection<? extends Number> splitter(final Collection<? extends Number> values, Integer delimiterValue) {
         Collection result = new TreeSet();
         for(Number elem : values)
             result.add((Integer)elem/delimiterValue);

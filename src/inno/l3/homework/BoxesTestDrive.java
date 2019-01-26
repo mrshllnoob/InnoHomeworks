@@ -28,7 +28,7 @@ public class BoxesTestDrive {
         System.out.println(mathBox);
         System.out.println(mathBox.getBoxedElements().hashCode());
         System.out.println("Sum of all elements equals " + mathBox.summator(mathBox.getBoxedElements()));
-        Collection s = MathBox.splitter(mathBox.getBoxedElements(),divider);
+        Collection s = mathBox.splitter(mathBox.getBoxedElements(),divider);
         System.out.println("\nAfter division on " + divider + " collection look like");
         MathBox.showNumericCollectionElems(s);
         System.out.println("\nCurrent example of MathBox " +
