@@ -13,7 +13,7 @@ import java.util.TreeSet;
  *
  * @author Tsapin Anton
  */
-public class ObjectBox<T extends Number> {
+public class ObjectBox<T extends Comparable> {
 
     public Collection<T> boxedElements = new TreeSet<>();
     public final Integer hashcode;
@@ -59,20 +59,8 @@ public class ObjectBox<T extends Number> {
      *
      * @return целочисленное значение
      */
-    @Override
-    public int hashCode() {
-        if (this.hashcode != null)
-            return this.hashcode;
-        else {
-            int result = 0;
-            int counter = 0;
-            for (Number elem : this.boxedElements) {
-                counter += 1;
-                result += elem.intValue() + counter / Math.pow(counter, counter);
-            }
-            return result;
-        }
-    }
+
+
 
     /**
      * Переопределенный метод класса (@code Object). Сравнивает объекты

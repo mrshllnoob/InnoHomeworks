@@ -3,6 +3,7 @@ package inno.l4.homework;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Класс содержит методы для генерации текста случайного содержания.
@@ -17,10 +18,10 @@ import java.util.*;
  */
 public class TextGenerator {
 
-    private Collection<String> dictionary = new ArrayList<>();
+    private ArrayList<String> dictionary = new ArrayList<>();
     private int dictSize = 1000;
-    private String resultsPath = "/home/sa/IdeaProjects/InnoHomeworks/src/inno/l4/homework/gens/";
-    private int resultFileSize = 100000;
+    private String resultsPath = "src/inno/l4/homework/gens/";
+    private int resultFileSize = 10000000;
     private int probabilityDivider = 1;
 
     /**
@@ -29,7 +30,7 @@ public class TextGenerator {
      * помещаются в поле (@code dictionary).
      * @param coll коллекция элементов
      */
-    public TextGenerator(Collection<String> coll, int value) {
+    public TextGenerator(ArrayList<String> coll, int value) {
         setDictSize(value);
         setDictionary(coll);
     }
@@ -39,7 +40,7 @@ public class TextGenerator {
      * фиксированного значением поля класса (@code dictSize) размера.
      * @param coll коллекция элементов
      */
-    public void setDictionary(Collection<String> coll) {
+    public void setDictionary(ArrayList<String> coll) {
         Random rand = new Random();
         for(int i = 0; i< getDictSize(); i++) {
             int randomIndex = rand.nextInt(coll.size()-1);
@@ -61,7 +62,7 @@ public class TextGenerator {
      * Get-метод для поля (@code dictionary).
      * @return поле-коллекция класса
      */
-    public Collection<String> getDictionary() {
+    public ArrayList<String> getDictionary() {
         return this.dictionary;
     }
 
@@ -131,8 +132,8 @@ public class TextGenerator {
      * @param words словарь
      * @param probability значение для вычисления вероятности вхождения слова в генерируемый текст
      */
-    public static final void generateDankTextFiles(String path, int filesCount,
-                                              int filesSize, Collection<String> words, int probability) {
+    public void generateDankTextFiles(String path, int filesCount,
+                                              int filesSize, ArrayList<String> words, int probability) {
         for (int i = 0; i<filesCount; i++) {
             File newFile = new File(path + i + ".txt");
             writeIntoFile(newFile, filesSize, words, probability);
@@ -148,12 +149,14 @@ public class TextGenerator {
      * @param words словарь
      * @param probabilityDivider значение для вычисления вероятности вхождения слова в генерируемый текст
      */
-    public static void writeIntoFile(File newFile, int size, Collection<String> words, int probabilityDivider) {
+    public static void writeIntoFile(File newFile, int size, ArrayList<String> words, int probabilityDivider) {
         try(FileOutputStream fos = new FileOutputStream(newFile);
                 OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
                 PrintWriter pw = new PrintWriter(bout)) {
             String result = buildText(size, words, probabilityDivider);
+            System.out.println("Starting to write into file");
             pw.write(result);
+            System.out.println("Writing ended");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,11 +171,12 @@ public class TextGenerator {
      * @param probabilityDivider значение для вычисления вероятности вхождения слова в генерируемый текст
      * @return сгенерированный текст
      */
-    public static String buildText(int size, Collection<String> coll, int probabilityDivider) {
+    public static String buildText(int size, ArrayList<String> coll, int probabilityDivider) {
         String resultText = "";
         for (int i=1; i<=size; i++) {
             resultText += buildParagraph(coll,probabilityDivider);
         }
+        System.out.println("Builded text:" + resultText);
         return resultText;
     }
 
@@ -184,12 +188,14 @@ public class TextGenerator {
      * @param probabilityDivider значение для вычисления вероятности вхождения слова в генерируемый текст
      * @return сгенерированный абзац
      */
-    public static String buildParagraph(Collection<String> coll, int probabilityDivider) {
-        int phrasesAmount = new Random().nextInt(19) + 1;
+    public static String buildParagraph(ArrayList<String> coll, int probabilityDivider) {
+        int phrasesAmount = ThreadLocalRandom.current().nextInt(19) + 1;
         String resultParagraph = "";
+        System.out.println("started to build prgrhs:");
         for (int i=0; i<phrasesAmount; i++) {
             resultParagraph += generatePhrase(coll, probabilityDivider);
         }
+        System.out.println("ended building paragraphs!");
         return resultParagraph + "\n\r";
     }
 
@@ -202,18 +208,19 @@ public class TextGenerator {
      * @param probabilityDivider значение для вычисления вероятности вхождения слова в генерируемый текст
      * @return сгенерированное предложение
      */
-    public static String generatePhrase(Collection<String> words, int probabilityDivider) {
+    public static String generatePhrase(ArrayList<String> words, int probabilityDivider) {
         String[] endings = {"!","?",".",".",".",".","."};
         String[] delimiters = {",", " "," ", " ", " "};
-        Random rand = new Random();
-        int wordsCount = rand.nextInt(14) + 1;
+        int wordsCount = ThreadLocalRandom.current().nextInt(14) + 1;
         String result = "";
+        System.out.println("Started generating phrase");
         for(int i=0; i<wordsCount; i++) {
-            result += takeWord(words, probabilityDivider) + delimiters[rand.nextInt(5)];
+            result += takeWord(words, probabilityDivider) + delimiters[ThreadLocalRandom.current().nextInt(5)];
         }
+        System.out.println("Ended generating phrase!");
         return (result.substring(0, 1).toUpperCase() +
                         result.substring(1)).replaceFirst("[, ]$", "")
-                            + endings[rand.nextInt(6)] + " ";
+                            + endings[ThreadLocalRandom.current().nextInt(6)] + " ";
     }
 
     /**
@@ -223,35 +230,17 @@ public class TextGenerator {
      * @param probabilityDivider значение для вычисления вероятности вхождения слова в генерируемый текст
      * @return случайное слово из словаря
      */
-    public static String takeWord(Collection<String> coll, int probabilityDivider) {
-        Iterator<String > iter = coll.iterator();
-        Random random = new Random();
-        int index = random.nextInt(coll.size() - 1);
-        int counter = 0;
-        String result = null;
-        while (iter.hasNext()) {
-            if (index == counter) {
-                result = iter.next();
-                break;
-            }
-            iter.next();
-            counter++;
-        }
-        if ((random.nextInt(100) + 1.0/probabilityDivider * 100) >= 100)
+    public static String takeWord(ArrayList<String> coll, int probabilityDivider) {
+        int index = ThreadLocalRandom.current().nextInt(coll.size() - 1);
+        String result = coll.get(index);
+        System.out.println("Started randomizing word");
+        if ((ThreadLocalRandom.current().nextInt(100) + 1.0/probabilityDivider * 100) >= 100) {
+            System.out.println("Ended randomizing word!");
             return result;
+        }
         else
             return takeWord(coll, probabilityDivider);
 
-    }
-
-    public static void main(String[] args) {
-        DictionaryCreator dictionaryCreator = new DictionaryCreator();
-        Collection<String> dictionary = dictionaryCreator.produceDictionaryCollection();
-        TextGenerator textGenerator = new TextGenerator(dictionary, 1000);
-        textGenerator.show();
-        TextGenerator.generateDankTextFiles(textGenerator.getResultsPath(),
-                                1, textGenerator.getResultFileSize(),
-                                        textGenerator.getDictionary(), textGenerator.getProbabilityDivider());
     }
 
     public void show() {

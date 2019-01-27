@@ -30,7 +30,7 @@ public class BoxesTestDrive {
         System.out.println("Sum of all elements equals " + mathBox.summator(mathBox.getBoxedElements()));
         Collection s = mathBox.splitter(mathBox.getBoxedElements(),divider);
         System.out.println("\nAfter division on " + divider + " collection look like");
-        MathBox.showNumericCollectionElems(s);
+        mathBox.showNumericCollectionElems(s);
         System.out.println("\nCurrent example of MathBox " +
                                 " has hashcode equal to:\n"
                                                                 + mathBox.hashCode());
@@ -59,10 +59,10 @@ public class BoxesTestDrive {
 
         System.out.println("__________________________________________________________________________\n\n");
 
-        mathBox.addObject(1);
+        //mathBox.addObject(1);
         mathBox.dump();
         System.out.println();
-        mathBox.deleteObject(1);
+        //mathBox.deleteObject(1);
         System.out.println(mathBox);
 
     }

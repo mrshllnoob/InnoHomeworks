@@ -25,7 +25,7 @@ import java.util.TreeSet;
  *
  * @param <T> Тип элементов содержащихся в коллекции-поле класса
  */
-public final class MathBox<T extends Number> extends ObjectBox<T>{
+public class MathBox<T extends Number & Comparable> extends ObjectBox<T>{
 
     //private Collection<T> boxedElements;
     //private final Integer hashcode;
@@ -62,9 +62,9 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      * @param values коллекция числовых значений
      * @return сумма элементов коллекции
      */
-    public BigInteger summator(final Collection<? extends Number> values) {
+    public BigInteger summator(Collection<T> values) {
         BigInteger result = BigInteger.ZERO;
-        for(final Number elem : values)
+        for(T elem : values)
             result = result.add(new BigInteger(String.valueOf(elem.longValue())));
         return result;
     }
@@ -74,8 +74,8 @@ public final class MathBox<T extends Number> extends ObjectBox<T>{
      *
      * @param boxedElements коллекция числовых элементов
      */
-    public static void showNumericCollectionElems(Collection<? extends Number> boxedElements) {
-        for(Number elem : boxedElements)
+    public void showNumericCollectionElems(Collection<T> boxedElements) {
+        for(T elem : boxedElements)
             System.out.print(elem + " ");
         System.out.println();
     }

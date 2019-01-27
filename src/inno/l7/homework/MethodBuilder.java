@@ -6,8 +6,15 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
+/**
+ * Класс содержащий методы для создания и загрузки
+ * файлов классов в райнтайме.
+ */
 public class MethodBuilder {
-
+    /**
+     * Читает ввод с консоли
+     * @return предполагаемое тело метода
+     */
     public StringBuilder getMethodFromStdIn() {
         StringBuilder methodBody = new StringBuilder();
         System.out.println("Method body:");
@@ -28,19 +35,26 @@ public class MethodBuilder {
         return methodBody;
     }
 
+    /**
+     * Вставляет введенный с консоли код в тело метода
+     * doWork()  класса SomeClass.java
+     * @param methodBody вводимый в метод код
+     */
     public void insertMethodBody(String methodBody) {
-        try(FileReader fr = new FileReader(new File("src/inno/l7/homework/SomeClass.java"));
+        try(FileReader fr = new FileReader(new File("inno/l7/homework/SomeClass.java"));
                 BufferedReader br = new BufferedReader(fr)) {
             String content = "";
             String line;
             while((line = br.readLine()) != null) {
                 content += line + "\n";
                 if (line.contains("doWork() {")) {
-                    content += "\t\t" + methodBody;
+                    content += "\t\t" + methodBody + "\t}\n}";
+                    fr.close();
+                    break;
                 }
             }
             System.out.println(content);
-            try(PrintWriter pw = new PrintWriter("src/inno/l7/homework/SomeClass.java")) {
+            try(PrintWriter pw = new PrintWriter("inno/l7/homework/SomeClass.java")) {
                 pw.write(content);
             }
 
@@ -51,9 +65,12 @@ public class MethodBuilder {
         }
     }
 
+    /**
+     * Компилирует SomeClass.java в райнтайме.
+     */
     public void compileAtRuntime() {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, null, null, "src/inno/l7/homework/SomeClass.java");
+        compiler.run(null, null, null, "inno/l7/homework/SomeClass.java");
     }
 
 
@@ -62,17 +79,12 @@ public class MethodBuilder {
         methodBuilder.insertMethodBody(methodBuilder.getMethodFromStdIn().toString());
         methodBuilder.compileAtRuntime();
         CustomClassLoader clloader = new CustomClassLoader(
-                "./", ClassLoader.getSystemClassLoader());
-        Class objCl = clloader.findClass("SomeClass");
+                "src/inno/l7/homework/", ClassLoader.getSystemClassLoader());
+        Class objCl = clloader.findClass("inno.l7.homework.SomeClass");
         try {
             objCl.getMethod("doWork").invoke(objCl.newInstance());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (IllegalAccessException|InvocationTargetException
+                    |NoSuchMethodException|InstantiationException e) {
             e.printStackTrace();
         }
     }

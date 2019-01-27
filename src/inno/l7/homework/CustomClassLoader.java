@@ -2,6 +2,10 @@ package inno.l7.homework;
 
 import java.io.*;
 
+/**
+ *
+ * @author customProgrammer
+ */
 public class CustomClassLoader extends ClassLoader {
 
     private String pathtobin;
@@ -26,14 +30,10 @@ public class CustomClassLoader extends ClassLoader {
     private byte[] fetchClassFromFS(String path) throws
             FileNotFoundException, IOException {
         InputStream is = new FileInputStream(new File(path));
-        // Get the size of the file
         long length = new File(path).length();
         if (length > Integer.MAX_VALUE) {
-        // File is too large
         }
-        // Create the byte array to hold the data
         byte[] bytes = new byte[(int)length];
-        // Read in the bytes
         int offset = 0;
         int numRead = 0;
         while (offset < bytes.length

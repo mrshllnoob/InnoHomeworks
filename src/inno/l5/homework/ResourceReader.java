@@ -6,9 +6,9 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -42,29 +42,55 @@ public class ResourceReader {
      * @param res адрес файла, в который записываются результаты сравнения
      * @throws IOException
      */
-    public static void getOccurencies(String[] sources, String[] words, String res) throws IOException {
+    public static void getOccurencies(String[] sources, String[] words, String res) {
         Lock lock = new ReentrantLock();
-        ArrayList<String> collected = new ArrayList<>();
+        ArrayList<StringBuilder> collected = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         for (int i=0; i<sources.length; i++) {
             int finalI = i;
-            Runnable worker = new Thread(new Runnable() {
+            Runnable worker = new Runnable() {
                 @Override
                 public void run() {
                     try {
                         String resource = parseResource(sources[finalI]);
                         lock.lock();
-                        collected.addAll(storeMatches(resource, words));
+                        collected.add(storeMatches(resource, words));
                         lock.unlock();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-            });
+            };
             executorService.execute(worker);
         }
         executorService.shutdown();
-        writeCollectionIntoFile(res,collected);
+        try {
+            writeCollectionIntoFile(res,collected);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getOccurenciesUsingCallable(String[] sources, String[] words, String res) {
+        List<Future<StringBuilder>> results = new ArrayList<>();
+        int i = 0;
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (i=0;i<sources.length;i++) {
+            int finalI = i;
+            Future<StringBuilder> future = executorService.submit(new Callable<StringBuilder>() {
+                @Override
+                public StringBuilder call() throws Exception {
+                    return storeMatches(parseResource(sources[finalI]), words);
+                }
+            });
+            results.add(future);
+        }
+        executorService.shutdown();
+        try {
+            writeCollectionIntoFile(res,results);
+        } catch (IOException|InterruptedException|ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -77,12 +103,21 @@ public class ResourceReader {
      * @param collection коллекция записываемых данных
      * @throws IOException
      */
-    private static void writeCollectionIntoFile(String res, Collection<String> collection) throws IOException {
+    private static void writeCollectionIntoFile(String res, ArrayList<StringBuilder> collection) throws IOException {
         try(FileOutputStream fos = new FileOutputStream(res);
                 OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
                 PrintWriter pw = new PrintWriter(bout)) {
-            for (String match : collection)
-                pw.println(match);
+            for (StringBuilder match : collection)
+                pw.println(match.toString() + "\n");
+        }
+    }
+
+    private static void writeCollectionIntoFile(String res, List<Future<StringBuilder>> collection) throws IOException, ExecutionException, InterruptedException {
+        try(FileOutputStream fos = new FileOutputStream(res);
+            OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            PrintWriter pw = new PrintWriter(bout)) {
+            for (Future<StringBuilder> match : collection)
+                pw.println(match.get().toString() + "\n");
         }
     }
 
@@ -101,7 +136,7 @@ public class ResourceReader {
      */
     public static String parseResource(String resource) throws IOException {
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         if ((resource.contains("http://") && (resource.startsWith("http://")))
                 || (resource.contains("https://") && resource.startsWith("https://"))) {
@@ -109,9 +144,9 @@ public class ResourceReader {
                     StandardCharsets.UTF_8.toString())) {
                 scanner.useDelimiter("\\A");
                 while (scanner.hasNext())
-                    result += scanner.nextLine();
+                    result.append(scanner.nextLine());
             }
-            return result.replaceAll("\n", "");
+            return result.toString();
         }
 
         if (resource.contains("ftp://") && resource.startsWith("ftp://")) {
@@ -121,9 +156,9 @@ public class ResourceReader {
                 BufferedReader reader = new BufferedReader(is)) {
                 String line;
                 while((line = reader.readLine()) != null)
-                    result += line;
+                    result.append(line);
             }
-            return result.replaceAll("\n", "");
+            return result.toString();
         }
 
         else {
@@ -131,9 +166,9 @@ public class ResourceReader {
                  BufferedReader in = new BufferedReader(fin)) {
                 String line;
                 while ((line = in.readLine()) != null)
-                    result += line;
+                    result.append(line);
             }
-            return result.replaceAll("\n", "");
+            return result.toString();
         }
     }
 
@@ -148,31 +183,19 @@ public class ResourceReader {
      * @return коллекция содержащая предложения текстовой строки text,
      *          в которых были найдены слова из массива words
      */
-    private static ArrayList<String> storeMatches(String text, String[] words) {
-        ArrayList<String> resultList = new ArrayList<>();
-        Lock innerLock = new ReentrantLock();
-        ExecutorService innerExecutor = Executors.newFixedThreadPool(1);
+    private static StringBuilder storeMatches(String text, String[] words) {
+        StringBuilder result = new StringBuilder();
         for (int j=0; j<words.length; j++){
-            int finalJ = j;
-            Runnable matchesStorer = new Thread(new Runnable() {
-                @Override
-                public void run() {
                     String[] arr = text.split("[!?.(...)]");
                     for (String elem : arr) {
-                        if (elem.contains(words[finalJ])) {
-                            innerLock.lock();
-                            //System.out.println(elem + " ||| " + words[finalJ]);
-                            resultList.add(elem);
-                            innerLock.unlock();
+                        if (elem.contains(" " + words[j] + " ")) {
+                            result.append(elem + "|=>" + words[j] + System.lineSeparator());
                         }
                     }
-                }
-            });
-            innerExecutor.execute(matchesStorer);
         }
-        innerExecutor.shutdown();
-        return resultList;
+        return result;
     }
+
 
     /**
      * Служебные метод buildArrayOfSourcesPaths() предназначен
@@ -208,8 +231,6 @@ public class ResourceReader {
                 text += line;
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
