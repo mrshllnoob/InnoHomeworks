@@ -41,7 +41,7 @@ public class MethodBuilder {
      * @param methodBody вводимый в метод код
      */
     public void insertMethodBody(String methodBody) {
-        try(FileReader fr = new FileReader(new File("inno/l7/homework/SomeClass.java"));
+        try(FileReader fr = new FileReader(new File("SomeClass.java"));
                 BufferedReader br = new BufferedReader(fr)) {
             String content = "";
             String line;
@@ -54,7 +54,7 @@ public class MethodBuilder {
                 }
             }
             System.out.println(content);
-            try(PrintWriter pw = new PrintWriter("inno/l7/homework/SomeClass.java")) {
+            try(PrintWriter pw = new PrintWriter("SomeClass.java")) {
                 pw.write(content);
             }
 
@@ -70,21 +70,22 @@ public class MethodBuilder {
      */
     public void compileAtRuntime() {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, null, null, "inno/l7/homework/SomeClass.java");
+        compiler.run(null, null, null, "SomeClass.java");
     }
 
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) {
         MethodBuilder methodBuilder = new MethodBuilder();
         methodBuilder.insertMethodBody(methodBuilder.getMethodFromStdIn().toString());
         methodBuilder.compileAtRuntime();
+
         CustomClassLoader clloader = new CustomClassLoader(
-                "src/inno/l7/homework/", ClassLoader.getSystemClassLoader());
-        Class objCl = clloader.findClass("inno.l7.homework.SomeClass");
+                        "", ClassLoader.getSystemClassLoader());
         try {
+            Class objCl = clloader.findClass("SomeClass");
             objCl.getMethod("doWork").invoke(objCl.newInstance());
         } catch (IllegalAccessException|InvocationTargetException
-                    |NoSuchMethodException|InstantiationException e) {
+                    |NoSuchMethodException|InstantiationException|ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

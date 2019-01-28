@@ -1,5 +1,3 @@
-package inno.l7.homework;
-
 /**
  * Класс, тело метода которого заполняется введенным с
  * консоли содержимым.
@@ -7,7 +5,7 @@ package inno.l7.homework;
 public class SomeClass {
 
     public void doWork() {
-		
+		System.out.println("!?");
 
 	}
 }
