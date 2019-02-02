@@ -1,9 +1,12 @@
 package inno.l5.homework;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,54 +27,19 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Tsapin Anton
  */
 public class ResourceReader {
-    /**
-     * Метод ищет элементы массива переданных слов words в
-     * массиве текстовых ресурсов sources и результаты успешного
-     * поиска записывает в файл res.
-     *
-     * Метод запускает некоторое число
-     * потоков, ограниченное объектом класса ExecutorService. В каждом
-     * потоке идет сбор текстовых данных с указанных ресурсов посредством метода
-     * parseResource() и затем происходит активация блокировки потока и вызов метода
-     * storeMatches(), результат которого добавляется в коллекцию. После этого
-     * блокировка снимается. По окончанию обработки всех ресурсов результаты поиска
-     * записываются в файл по адресу res.
-     *
-     * @param sources массив адресов текстовых файлов
-     * @param words массив слов для поиска
-     * @param res адрес файла, в который записываются результаты сравнения
-     * @throws IOException
-     */
-    public static void getOccurencies(String[] sources, String[] words, String res) {
-        Lock lock = new ReentrantLock();
-        ArrayList<StringBuilder> collected = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-        for (int i=0; i<sources.length; i++) {
-            int finalI = i;
-            Runnable worker = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String resource = parseResource(sources[finalI]);
-                        lock.lock();
-                        collected.add(storeMatches(resource, words));
-                        lock.unlock();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            executorService.execute(worker);
-        }
-        executorService.shutdown();
-        try {
-            writeCollectionIntoFile(res,collected);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void getOccurenciesUsingCallable(String[] sources, String[] words, String res) {
+    /**
+     *  Метод ищет элементы массива переданных слов words в
+     *  массиве текстовых ресурсов sources и результаты успешного
+     *  поиска записывает в файл res.
+     *
+     *  Использует интерфейсы Callable и Future.
+     *
+     * @param sources массив ссылок
+     * @param words массив слов
+     * @param res путь до выходного файла
+     */
+    public void getOccurenciesUsingCallable(String[] sources, String[] words, String res) {
         List<Future<StringBuilder>> results = new ArrayList<>();
         int i = 0;
         ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -79,7 +47,7 @@ public class ResourceReader {
             int finalI = i;
             Future<StringBuilder> future = executorService.submit(new Callable<StringBuilder>() {
                 @Override
-                public StringBuilder call() throws Exception {
+                public StringBuilder call() {
                     return storeMatches(parseResource(sources[finalI]), words);
                 }
             });
@@ -94,25 +62,19 @@ public class ResourceReader {
     }
 
     /**
+     *
      * Записывает данные из коллекции в файл.
      *
      * Элементы коллекции при записи в файл разделяются
      * символом новой строки.
      *
-     * @param res адрес формируемого файла
-     * @param collection коллекция записываемых данных
-     * @throws IOException
+     * @param res путь до выходного файла
+     * @param collection коллекция текстовых предложений
+     * @throws IOException при открытии потока вывода в файл
+     * @throws ExecutionException метод get()
+     * @throws InterruptedException метод get()
      */
-    private static void writeCollectionIntoFile(String res, ArrayList<StringBuilder> collection) throws IOException {
-        try(FileOutputStream fos = new FileOutputStream(res);
-                OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-                PrintWriter pw = new PrintWriter(bout)) {
-            for (StringBuilder match : collection)
-                pw.println(match.toString() + "\n");
-        }
-    }
-
-    private static void writeCollectionIntoFile(String res, List<Future<StringBuilder>> collection) throws IOException, ExecutionException, InterruptedException {
+    public void writeCollectionIntoFile(String res, List<Future<StringBuilder>> collection) throws IOException, ExecutionException, InterruptedException {
         try(FileOutputStream fos = new FileOutputStream(res);
             OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             PrintWriter pw = new PrintWriter(bout)) {
@@ -134,7 +96,7 @@ public class ResourceReader {
      * @return собранные данные в строчном представлении
      * @throws IOException
      */
-    public static String parseResource(String resource) throws IOException {
+    public String parseResource(String resource) {
 
         StringBuilder result = new StringBuilder();
 
@@ -145,18 +107,29 @@ public class ResourceReader {
                 scanner.useDelimiter("\\A");
                 while (scanner.hasNext())
                     result.append(scanner.nextLine());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return result.toString();
         }
 
         if (resource.contains("ftp://") && resource.startsWith("ftp://")) {
-            URLConnection conn = new URL(resource).openConnection();
+            URLConnection conn = null;
+            try {
+                conn = new URL(resource).openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try(InputStream in = conn.getInputStream();
                 InputStreamReader is = new InputStreamReader(in);
                 BufferedReader reader = new BufferedReader(is)) {
                 String line;
                 while((line = reader.readLine()) != null)
                     result.append(line);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return result.toString();
         }
@@ -167,6 +140,10 @@ public class ResourceReader {
                 String line;
                 while ((line = in.readLine()) != null)
                     result.append(line);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return result.toString();
         }
@@ -183,7 +160,7 @@ public class ResourceReader {
      * @return коллекция содержащая предложения текстовой строки text,
      *          в которых были найдены слова из массива words
      */
-    private static StringBuilder storeMatches(String text, String[] words) {
+    public StringBuilder storeMatches(String text, String[] words) {
         StringBuilder result = new StringBuilder();
         for (int j=0; j<words.length; j++){
                     String[] arr = text.split("[!?.(...)]");
@@ -205,12 +182,19 @@ public class ResourceReader {
      * @param dirPath путь до папки с файлами.
      * @return
      */
-    public static String[] buildArrayOfSourcesPaths(String dirPath) {
+    public String[] buildArrayOfSourcesPaths(String dirPath) {
         File dir = new File(dirPath);
+        if (dir.exists() == false)
+            return new String[] {""};
         String[] files = dir.list();
         String[] concedPaths = new String[files.length];
-        for (int i=0; i<files.length; i++)
+        for (int i=0; i<files.length; i++) {
+            if (Files.exists(Paths.get(dirPath + files[i])) == false) {
+                concedPaths[i] = "";
+                continue;
+            }
             concedPaths[i] = dirPath + files[i];
+        }
         return concedPaths;
     }
 
@@ -222,8 +206,10 @@ public class ResourceReader {
      * @param path путь ло файла
      * @return массив слов из файла
      */
-    public static String[] getWordsFromFile(String path) {
-        String text = null;
+    public String[] getWordsFromFile(String path) {
+        String text = "";
+        if (path == null || path.equals(""))
+            return new String[] {""};
         try (FileReader fin = new FileReader(new File(path));
                 BufferedReader in = new BufferedReader(fin)) {
             String line;
@@ -233,6 +219,7 @@ public class ResourceReader {
 
         } catch (IOException e) {
             e.printStackTrace();
+            return new String[] {""};
         }
         return text.replaceAll("[\\W_]", " ").split(" ");
     }

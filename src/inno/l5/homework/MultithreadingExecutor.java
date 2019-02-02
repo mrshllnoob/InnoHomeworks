@@ -19,9 +19,10 @@ import java.io.IOException;
 public class MultithreadingExecutor {
 
     public static void main(String[] args) {
-        ResourceReader.getOccurenciesUsingCallable(
-                ResourceReader.buildArrayOfSourcesPaths("src/inno/l5/homework/smallsrc/"),
-                ResourceReader.getWordsFromFile("src/inno/l5/homework/dictionary.txt"),
+        ResourceReader rr = new ResourceReader();
+        rr.getOccurenciesUsingCallable(
+                rr.buildArrayOfSourcesPaths("src/inno/l5/homework/smallsrc/"),
+                rr.getWordsFromFile("src/inno/l5/homework/dictionary.txt"),
                 "src/inno/l5/homework/res.txt");
     }
 
