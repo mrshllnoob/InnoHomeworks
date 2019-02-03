@@ -102,8 +102,12 @@ public class MethodBuilder {
 
         pathToOutDir = args[0];
         className = args[1];
-        fullPathToJavaFile = args[0] + args[1] + ".java";
-        fullPathToClassFile = args[0] + args[1] + ".class";
+
+        if (!pathToOutDir.endsWith(File.separator))
+            pathToOutDir += File.separator;
+
+        fullPathToJavaFile = pathToOutDir + className + ".java";
+        fullPathToClassFile = pathToOutDir + className + ".class";
 
         MethodBuilder methodBuilder = new MethodBuilder();
         methodBuilder.writeListingIntoFile(methodBuilder.getSomeClassListing());
