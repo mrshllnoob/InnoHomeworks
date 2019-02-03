@@ -8,17 +8,17 @@ import java.io.*;
  */
 public class CustomClassLoader extends ClassLoader {
 
-    private String pathtobin;
+    private String pathToClassFile;
 
-    public CustomClassLoader(String pathtobin, ClassLoader parent) {
+    public CustomClassLoader(String path, ClassLoader parent) {
         super(parent);
-        this.pathtobin = pathtobin;
+        this.pathToClassFile = path;
     }
     @Override
     public Class<?> findClass(String className) throws
             ClassNotFoundException {
         try {
-            byte b[] = fetchClassFromFS(pathtobin + className + ".class");
+            byte b[] = fetchClassFromFS(pathToClassFile);
             return defineClass(className, b, 0, b.length);
         } catch (FileNotFoundException ex) {
             return super.findClass(className);
