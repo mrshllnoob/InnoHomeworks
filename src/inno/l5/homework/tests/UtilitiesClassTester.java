@@ -4,7 +4,6 @@ import inno.l5.homework.classes.Utilities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class UtilitiesClassTester {
 
@@ -12,21 +11,20 @@ public class UtilitiesClassTester {
 
     @BeforeEach
     void setUp() {
-        util = Mockito.mock(Utilities.class);
+        util = new Utilities();
     }
 
     @Test
-    void buildArrayOfSrcTestOnNotReturningNull() {
-        Mockito.when(util.buildArrayOfSourcesPaths(Mockito.anyString()))
-                .thenReturn(new String[] {});
+    void buildArrayOfSrcPathsTestOnNotReturningNull() {
         Assertions.assertNotNull(util.buildArrayOfSourcesPaths(null));
+        Assertions.assertNotNull(util.buildArrayOfSourcesPaths(""));
+        Assertions.assertNotNull(util.buildArrayOfSourcesPaths("wrong path"));
     }
 
     @Test
-    void getWordsTestOnNotReturningNull() {
-        Mockito.when(util.getWordsFromFile(Mockito.anyString()))
-                .thenReturn(new String[] {""});
+    void getWordsFromFileTestOnNotReturningNull() {
+        Assertions.assertNotNull(util.getWordsFromFile(null));
         Assertions.assertNotNull(util.getWordsFromFile(""));
+        Assertions.assertNotNull(util.getWordsFromFile("wrong.txt"));
     }
-
 }

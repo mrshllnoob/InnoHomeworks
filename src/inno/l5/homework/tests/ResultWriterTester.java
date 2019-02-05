@@ -4,10 +4,7 @@ import inno.l5.homework.classes.ResultWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ResultWriterTester {
@@ -16,13 +13,15 @@ public class ResultWriterTester {
 
     @BeforeEach
     void setUp() {
-        rwr = Mockito.mock(ResultWriter.class);
+        rwr = new ResultWriter(null);
     }
 
     @Test
-    void testWriteListIntoFileThrowsIOException() {
-
-        Assertions.assertThrows(FileNotFoundException.class, ()->new ResultWriter("").writeListIntoFile(new ArrayList<>()));
+    void testWriteListIntoFileOnWrongArg() {
+        rwr.setPath(null);
+        Assertions.assertDoesNotThrow(()->rwr.writeListIntoFile(new ArrayList<>()));
+        rwr.setPath("/wrong/wrong.txt");
+        Assertions.assertDoesNotThrow(()->rwr.writeListIntoFile(new ArrayList<>()));
     }
 
 }
