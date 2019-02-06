@@ -4,6 +4,12 @@ import inno.l5.homework.classes.ResourceReader;
 
 import java.io.*;
 
+/**
+ * Класс при помощи которого можно читать текстовые файлы
+ * размещенные в локальной файловой системе.
+ *
+ * @author Tsapin Anton
+ */
 public class LocalTextFilesReader implements ResourceReader {
     private final String link;
 

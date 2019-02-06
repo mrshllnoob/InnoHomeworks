@@ -4,6 +4,11 @@ import inno.l5.homework.classes.impl.FtpTextReader;
 import inno.l5.homework.classes.impl.HttpTextReader;
 import inno.l5.homework.classes.impl.LocalTextFilesReader;
 
+/**
+ * Класс создающий классы читающие различные текстовые ресурсы
+ * в зависимости от переданной ссылки.
+ * @author Tsapin Anton
+ */
 public class ReadersCreator {
 
     public ResourceReader createReaderOnLink(String link) {

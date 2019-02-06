@@ -9,6 +9,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * Класс при помощи которого можно читать текстовые файлы
+ * с FTP-серверов.
+ *
+ * @author Tsapin Anton
+ */
 public class FtpTextReader implements ResourceReader {
 
     private final String link;

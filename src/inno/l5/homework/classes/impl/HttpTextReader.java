@@ -7,6 +7,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+/**
+ * Класс при помощи которого можно читать текстовые файлы
+ * по Http-ссылкам.
+ *
+ * @author Tsapin Anton
+ */
 public class HttpTextReader implements ResourceReader {
 
     private static String link;

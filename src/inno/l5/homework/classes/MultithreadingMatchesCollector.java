@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * Класс (@code MultithreadingMatchesCollector) содержит ряд статических методов
- * для работы с текстовыми ресурсами и текстовыми файлами.
+ * Класс (@code MultithreadingMatchesCollector) содержит ряд методов
+ * для мультипоточной обработки и анализа текстовых данных из различных
+ * источников. Сбор текстовой информации с предоставленных ресурсов
+ * осуществляется при помощи фабричного классов реализующих интерфейс
+ * ResourceReader.
  *
  * Методы данного класса позволяют получать текстовую информацию
  * с текстовых файлов на компьютере, по веб-ссылке и с открытых
@@ -66,6 +69,13 @@ public class MultithreadingMatchesCollector {
         return result;
     }
 
+    /**
+     * Размещает информацию переданную в параметре-списке
+     * в возвращаемой коллекции.
+     *
+     * @param futureList лист фьючеров с текстовыми данными
+     * @return возвращает коллекцию элементов извлеченных из фьючеров.
+     */
     public List<StringBuilder> collectFuturesIntoList(List<Future<StringBuilder>> futureList) {
         List result = new ArrayList();
         for (Future el : futureList) {
