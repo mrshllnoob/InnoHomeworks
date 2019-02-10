@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class SortingExecutor {
 
-    private static Comparable[] values;
+    private static Comparable[] values; //
     private static SortingAlgorithm alg;
     private static int arrLen = 60000;
     private static int randomRange = 60000;
