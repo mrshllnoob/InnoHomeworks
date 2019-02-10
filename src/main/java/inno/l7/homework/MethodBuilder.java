@@ -32,7 +32,7 @@ public class MethodBuilder {
                 " * Класс, тело метода которого заполняется введенным с\n" +
                 " * консоли содержимым.\n" +
                 " */\n" +
-                "public class SomeClass {\n" +
+                "public class " + className + " {\n" +
                 "\n" +
                 "    public void doWork() {\n" +
                 "\t\t%TEMPLATE%" +
