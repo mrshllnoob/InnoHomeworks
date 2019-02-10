@@ -1,3 +1,4 @@
 language: java
 scripts:
   mvn clean install
+  mvn install -DskipTests=false
