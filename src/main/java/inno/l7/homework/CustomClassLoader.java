@@ -27,8 +27,7 @@ public class CustomClassLoader extends ClassLoader {
         }
     }
 
-    private byte[] fetchClassFromFS(String path) throws
-            FileNotFoundException, IOException {
+    private byte[] fetchClassFromFS(String path) throws IOException {
         InputStream is = new FileInputStream(new File(path));
         long length = new File(path).length();
         if (length > Integer.MAX_VALUE) {

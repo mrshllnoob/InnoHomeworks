@@ -4,12 +4,11 @@ package inno.l11_12.homework;
 import inno.l11_12.homework.dao.PersonDAOImpl;
 import inno.l11_12.homework.entities.Person;
 import org.apache.log4j.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 
 public class TestDrive {
 

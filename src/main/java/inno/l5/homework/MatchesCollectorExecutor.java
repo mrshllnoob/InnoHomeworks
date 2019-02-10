@@ -1,10 +1,5 @@
 package inno.l5.homework;
 
-import inno.l5.homework.classes.MultithreadingMatchesCollector;
-import inno.l5.homework.classes.ResultWriter;
-import inno.l5.homework.classes.Utilities;
-
-import java.io.File;
 import java.util.List;
 
 /**
@@ -22,9 +17,9 @@ public class MatchesCollectorExecutor {
     /**
      * Принимает 3 аргумента: путь до папки с ресурсами,
      * путь до файла-словаря и путь до формируемого файла
-     * с совпадениями. Н-р (src/inno/l5/homework/resources/smallsrc/
-     *                      src/inno/l5/homework/resources/dictionary.txt
-     *                      out/res.txt)
+     * с совпадениями. Н-р (src/main/resources/l5/smallsrc
+     *                      src/main/resources/l5/dictionary.txt
+     *                      target/result.txt)
      *
      * @param args
      */
