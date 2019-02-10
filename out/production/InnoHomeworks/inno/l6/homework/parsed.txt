@@ -1,12 +1,0 @@
-
-Object {
-	ClassName=inno.l6.homework.Tester
-	Field-Primitive;name=a;type=int;value=11111
-	Field-Primitive;name=b;type=short;value=1111
-	Field-Primitive;name=c;type=byte;value=111
-	Field-Primitive;name=d;type=long;value=11111111
-	Field-Primitive;name=e;type=double;value=1.1111111111111112E9
-	Field-Primitive;name=f;type=float;value=1111111.0
-	Field-Primitive;name=g;type=boolean;value=true
-	Field-Object;name=h;type=java.lang.String;value=XXX
-	} 
