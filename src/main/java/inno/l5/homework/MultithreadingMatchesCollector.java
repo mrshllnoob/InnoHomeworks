@@ -29,8 +29,8 @@ public class MultithreadingMatchesCollector {
      *  @param sources массив ссылок
      * @param words массив слов
      */
-    public List<StringBuilder> getOccurenciesUsingCallable(String[] sources, String[] words) {
-        List<Future<StringBuilder>> results = new ArrayList<>();
+    public List<String> getOccurenciesUsingCallable(String[] sources, String[] words) throws ExecutionException, InterruptedException {
+        List<StringBuilder> results = new ArrayList<>();
         int i = 0;
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         ReadersCreator fab = new ReadersCreator();
@@ -39,10 +39,10 @@ public class MultithreadingMatchesCollector {
             Future<StringBuilder> future = executorService.submit(
                     () -> storeMatches(fab.createReaderOnLink(sources[finalI])
                                             .getTextFromResource(), words));
-            results.add(future);
+            results.add(future.get());
         }
         executorService.shutdown();
-        return collectFuturesIntoList(results);
+        return collectionToString(results);
     }
 
     /**
@@ -62,7 +62,7 @@ public class MultithreadingMatchesCollector {
                     String[] arr = text.split("[!?.(...)]");
                     for (String elem : arr) {
                         if (elem.contains(" " + words[j] + " ")) {
-                            result.append(elem + "|=>" + words[j] + System.lineSeparator());
+                            result.append(elem + System.lineSeparator());
                         }
                     }
         }
@@ -73,19 +73,13 @@ public class MultithreadingMatchesCollector {
      * Размещает информацию переданную в параметре-списке
      * в возвращаемой коллекции.
      *
-     * @param futureList лист фьючеров с текстовыми данными
+     * @param sbList лист фьючеров с текстовыми данными
      * @return возвращает коллекцию элементов извлеченных из фьючеров.
      */
-    public List<StringBuilder> collectFuturesIntoList(List<Future<StringBuilder>> futureList) {
+    public List<String> collectionToString(List<StringBuilder> sbList) {
         List result = new ArrayList();
-        for (Future el : futureList) {
-            try {
-                result.add(el.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+        for (StringBuilder el : sbList) {
+            result.add(el.toString());
         }
         return result;
     }

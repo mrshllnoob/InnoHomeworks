@@ -1,6 +1,7 @@
 package inno.l5.homework;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Класс для запуска класса MultithreadingMatchesCollector.
@@ -23,7 +24,7 @@ public class MatchesCollectorExecutor {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         if (args.length!=3) {
             System.out.println("Wrong number of args");
@@ -32,7 +33,7 @@ public class MatchesCollectorExecutor {
 
         MultithreadingMatchesCollector mmc = new MultithreadingMatchesCollector();
         Utilities util = new Utilities();
-        List<StringBuilder> res = mmc.getOccurenciesUsingCallable(util.buildArrayOfSourcesPaths(args[0]),
+        List<String> res = mmc.getOccurenciesUsingCallable(util.buildArrayOfSourcesPaths(args[0]),
                                         util.getWordsFromFile(args[1]));
         new ResultWriter(args[2]).writeListIntoFile(res);
     }

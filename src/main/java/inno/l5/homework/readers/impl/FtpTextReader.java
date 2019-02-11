@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Scanner;
 
 /**
  * Класс при помощи которого можно читать текстовые файлы
@@ -25,19 +26,10 @@ public class FtpTextReader implements ResourceReader {
 
     @Override
     public String getTextFromResource() {
-        URLConnection conn = null;
         StringBuilder result = new StringBuilder();
-        try {
-            conn = new URL(link).openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try(InputStream in = conn.getInputStream();
-            InputStreamReader is = new InputStreamReader(in);
-            BufferedReader reader = new BufferedReader(is)) {
-            String line;
-            while((line = reader.readLine()) != null)
-                result.append(line);
+        try(Scanner scanner = new Scanner(new URL(link).openStream())) {
+            while(scanner.hasNext())
+                result.append(scanner.nextLine());
         } catch (IOException e) {
             e.printStackTrace();
         }

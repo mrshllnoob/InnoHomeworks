@@ -25,12 +25,12 @@ public class ResultWriter {
      *
      * @param list список StringBuilder-ов
      */
-    public void writeListIntoFile(List<StringBuilder> list) {
+    public void writeListIntoFile(List<String> list) {
         try(FileOutputStream fos = new FileOutputStream(getPath());
             OutputStreamWriter bout = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             PrintWriter pw = new PrintWriter(bout)) {
-            for (StringBuilder elem : list)
-                pw.write(elem.append("\n").toString());
+            for (String elem : list)
+                pw.write(elem + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,6 +53,6 @@ public class ResultWriter {
         if (path != null && Files.exists(Paths.get("" + path)))
             this.path = path;
         else
-            this.path = System.getProperty("user.dir") + "result.txt";
+            this.path = System.getProperty("user.dir") + File.separator + "result.txt";
     }
 }
